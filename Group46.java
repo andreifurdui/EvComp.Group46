@@ -4,13 +4,13 @@ import org.vu.contest.ContestEvaluation;
 import java.util.Random;
 import java.util.Properties;
 
-public class GroupName implements ContestSubmission
+public class Group46 implements ContestSubmission
 {
 	Random rnd_;
 	ContestEvaluation evaluation_;
     private int evaluations_limit_;
 	
-	public GroupName()
+	public Group46()
 	{
 		rnd_ = new Random();
 	}
