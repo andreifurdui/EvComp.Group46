@@ -1,17 +1,31 @@
-# Compiled class file
+# Java
 *.class
+!BentCigarFunction.class
+!KatsuuraEvaluation.class
+!SchaffersEvaluation.class
+!SphereEvaluation.class
+*.jar
+!contest.jar
+!testrun.jar
+*.war
+*.ear
 
-# Log file
-*.log
+# Eclipse
+.project
+.classpath
+.settings
 
-# BlueJ files
-*.ctxt
+# Idea
+.idea
+*.iml
+*.iws
+*.ipr
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# OS
+Thumbs.db
+.DS_Store
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -24,3 +38,20 @@ hs_err_pid*
 
 # assignment specifics
 tmp/**
+
+# Gradle
+.gradle
+!gradle-wrapper.jar
+
+# Maven
+target
+
+# Build
+out
+build
+bin
+
+# Other
+*.log
+*.swp
+*.bak
