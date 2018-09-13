@@ -16,10 +16,10 @@
 .settings
 
 # Idea
-#.idea
-#*.iml
-#*.iws
-#*.ipr
+.idea
+*.iml
+*.iws
+*.ipr
 
 # OS
 Thumbs.db
@@ -47,7 +47,7 @@ tmp/**
 target
 
 # Build
-#out
+out
 build
 bin
 
