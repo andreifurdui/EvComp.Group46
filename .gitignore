@@ -16,6 +16,7 @@
 .settings
 
 # Idea
+.idea/workspace.xml
 .idea
 *.iml
 *.iws
