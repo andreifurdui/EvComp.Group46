@@ -16,10 +16,11 @@
 .settings
 
 # Idea
-#.idea
-#*.iml
-#*.iws
-#*.ipr
+.idea/workspace.xml
+.idea
+*.iml
+*.iws
+*.ipr
 
 # OS
 Thumbs.db
