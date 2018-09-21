@@ -17,7 +17,8 @@ public class Player46 implements ContestSubmission
 	}
 
 	public static void main(String args[]){
-		System.out.println("Success");
+		Player46 player = new Player46();
+		player.run();
 	}
 
 	public void setSeed(long seed)
@@ -51,7 +52,7 @@ public class Player46 implements ContestSubmission
     
 	public void run()
 	{
-		// Run your algorithm here
+		Population population = Population.InitPopulation_Rand(rnd_);
         
         int evals = 0;
         // init population

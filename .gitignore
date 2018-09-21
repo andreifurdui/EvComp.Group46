@@ -1,12 +1,4 @@
 # Java
-*.class
-!BentCigarFunction.class
-!KatsuuraEvaluation.class
-!SchaffersEvaluation.class
-!SphereEvaluation.class
-*.jar
-!contest.jar
-!testrun.jar
 *.war
 *.ear
 
@@ -21,6 +13,7 @@
 *.iml
 *.iws
 *.ipr
+files
 
 # OS
 Thumbs.db
