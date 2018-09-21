@@ -46,7 +46,7 @@ public class Group46 implements ContestSubmission
     
 	public void run()
 	{
-		// Run your algorithm here
+        Population population = Population.InitializeRandomly(rnd_, -5, 5, evaluation_);        
         
         int evals = 0;
         // init population

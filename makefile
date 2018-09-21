@@ -11,14 +11,16 @@ CONTEST = -cp contest.jar
 	$(JC) $(JFLAGS) $(CONTEST) $*.java
 
 CLASSES = \
-	Group46.java
+	Individual.java \
+	Population.java \
+	Group46.java 
 
 default: classes
 
 classes: $(CLASSES:.java=.class)
 
 submission: Group46.class
-	$(JAR) $(JARFLAGS) MainClass.txt submission.jar Group46.class
+	$(JAR) $(JARFLAGS) MainClass.txt submission.jar Group46.class Population.class Individual.class
 
 sphere: submission
 	$(JAVA) -$(JAR) testrun.jar -submission=Group46 -evaluation=SphereEvaluation -seed=1
@@ -35,4 +37,4 @@ schaffers: submission
 tests: submission sphere cigar schaffers kat
 
 clean:
-	$(RM) *46.class submission.jar
+	$(RM) *46.class submission.jar Individual.class Population.class
