@@ -1,20 +1,25 @@
-import org.vu.contest.ContestSubmission;
 import org.vu.contest.ContestEvaluation;
+import org.vu.contest.ContestSubmission;
+import sun.applet.Main;
 
 import java.util.Random;
 import java.util.Properties;
 
-public class Group46 implements ContestSubmission
+public class Player46 implements ContestSubmission
 {
 	Random rnd_;
 	ContestEvaluation evaluation_;
     private int evaluations_limit_;
 	
-	public Group46()
+	public Player46()
 	{
 		rnd_ = new Random();
 	}
-	
+
+	public static void main(String args[]){
+		System.out.println("Success");
+	}
+
 	public void setSeed(long seed)
 	{
 		// Set seed of algortihms random process
