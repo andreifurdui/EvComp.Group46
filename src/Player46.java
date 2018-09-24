@@ -1,6 +1,5 @@
 import org.vu.contest.ContestEvaluation;
 import org.vu.contest.ContestSubmission;
-import sun.applet.Main;
 
 import java.util.Random;
 import java.util.Properties;
@@ -52,11 +51,9 @@ public class Player46 implements ContestSubmission
     
 	public void run()
 	{
-		Population population = Population.InitPopulation_Rand(rnd_);
-        
-        int evals = 0;
-        // init population
-        // calculate fitness
+		Population population = Population.InitPopulationWithFitness_Rand(rnd_, evaluation_);
+
+		int evals = 0;
         while(evals<evaluations_limit_){
             // Select parents
             // Apply crossover / mutation operators

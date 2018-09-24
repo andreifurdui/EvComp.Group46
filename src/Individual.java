@@ -1,21 +1,19 @@
+import org.vu.contest.ContestEvaluation;
+
 import java.util.Random;
 
 public class Individual {
-    public static final int GenotypeLength = 10;
+    public Genotype Genes;
+    public double Fitness;
 
-    public Gene[] Genotype;
-
-    public Individual(Gene[] genotype){
-        this.Genotype = genotype;
+    public Individual(Genotype genotype, double fitness){
+        this.Genes = genotype;
+        this.Fitness = fitness;
     }
 
-    public static Individual Create_Rand(Random rand){
-        Gene[] genotype = new Gene[GenotypeLength];
+    public static Individual Create_Rand(Random rand, ContestEvaluation evaluation_){
+        Genotype genotype = Genotype.Create_Rand(rand);
 
-        for (int i = 0; i < GenotypeLength; i++) {
-            genotype[i] = Gene.Create_Rand(rand);
-        }
-
-        return new Individual(genotype);
+        return new Individual(genotype, (double)evaluation_.evaluate(genotype.Values));
     }
 }

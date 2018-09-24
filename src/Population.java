@@ -1,3 +1,5 @@
+import org.vu.contest.ContestEvaluation;
+
 import java.util.*;
 
 public class Population {
@@ -9,11 +11,11 @@ public class Population {
         this.Population = population;
     }
 
-    public static Population InitPopulation_Rand(Random rand) {
+    public static Population InitPopulationWithFitness_Rand(Random rand, ContestEvaluation evaluation_) {
         List<Individual> pop = new ArrayList<Individual>();
 
         for (int i = 0; i < PopulationSize; i++) {
-            Individual ind = Individual.Create_Rand(rand);
+            Individual ind = Individual.Create_Rand(rand, evaluation_);
             pop.add(ind);
         }
 
