@@ -3,43 +3,45 @@ import org.vu.contest.ContestEvaluation;
 import java.util.*;
 
 public class Population {
-    
+
     public List<Individual> Population;
-    public List<Population> Islands;
+    public List<Island> Islands;
 
     private static Random rand = new Random();
 
-    public Population(List<Individual> population){
-
+    public Population(List<Individual> population)
+    {
         Collections.sort(population, Individual.Comparator);
         this.Population = population;
 
-        this.Islands = new ArrayList<Population>();
-        this.Islands.add(this);
+        this.Islands = new ArrayList<>();
     }
 
-    public Population(List<Individual> population, List<Individual>[] islands, int islandCount){
+    public Population(List<Individual> population, List<Individual>[] islands, int islandCount)
+    {
         this.Population = population;
 
-        this.Islands = new ArrayList<Population>();
+        this.Islands = new ArrayList<>();
         for (int i = 0; i < islandCount; i++) {
-            this.Islands.add(new Population(islands[i]));
+            this.Islands.add(new Island(islands[i], IslandParameters.GetIslandParameters(islands[i].size(), i)));
         }
     }
 
-    public static Population InitPopulationWithFitness_Rand(Random rand, ContestEvaluation evaluation_, int populationSize) {
+    public static Population InitPopulationWithFitness_Rand(ContestEvaluation evaluation_, int populationSize) {
         List<Individual> pop = new ArrayList<Individual>();
 
         for (int i = 0; i < populationSize; i++) {
-            Individual ind = Individual.Create_Rand(rand, evaluation_);
+            Individual ind = Individual.Create_Rand(evaluation_);
             pop.add(ind);
         }
 
         return new Population(pop);
     }
 
-    public Population WithIslandization(int island_count) {
+    public Population WithIslandization(int island_count)
+    {
         List<Individual>[] islands = new List[island_count];
+
         for (int i = 0; i < island_count; i++) {
             islands[i] = new ArrayList<Individual>();
         }
@@ -55,11 +57,13 @@ public class Population {
         return new Population(this.Population, islands, island_count);
     }
 
-    public int GetPopulationSize(){
+    public int GetPopulationSize()
+    {
         return this.Population.size();
     }
 
-    public Individual getRandomIndividual() {
+    public Individual getRandomIndividual()
+    {
         return Population.get(rand.nextInt(100));
     }
 }

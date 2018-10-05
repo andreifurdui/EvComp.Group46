@@ -1,6 +1,8 @@
 import org.vu.contest.ContestEvaluation;
 import org.vu.contest.ContestSubmission;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Properties;
 
@@ -11,7 +13,7 @@ public class Player46 implements ContestSubmission
     private int evaluations_limit_;
 	private int island_count = 4;
 	private int population_size = 100;
-	
+	private int epoch_length = 100;
 	public Player46()
 	{
 		rnd_ = new Random();
@@ -59,13 +61,16 @@ public class Player46 implements ContestSubmission
 	public void run()
 	{
 		Population population = Population
-				.InitPopulationWithFitness_Rand(rnd_, evaluation_, population_size)
+				.InitPopulationWithFitness_Rand(evaluation_, population_size)
 				.WithIslandization(island_count);
 
 		int evals = 100;
 
         while(evals<evaluations_limit_){
-            int size = population.GetPopulationSize();
+            int epochs = 0;
+			for (int island = 0; island < island_count; island++) {
+				population.Islands.get(island).Evolve(evaluation_);
+			}
         	// Select parents
             // Apply crossover / mutation operators
             double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
