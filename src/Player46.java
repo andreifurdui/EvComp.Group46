@@ -9,6 +9,8 @@ public class Player46 implements ContestSubmission
 	Random rnd_;
 	ContestEvaluation evaluation_;
     private int evaluations_limit_;
+	private int island_count = 4;
+	private int population_size = 100;
 	
 	public Player46()
 	{
@@ -56,15 +58,19 @@ public class Player46 implements ContestSubmission
     
 	public void run()
 	{
-		Population population = Population.InitPopulationWithFitness_Rand(rnd_, evaluation_);
+		Population population = Population
+				.InitPopulationWithFitness_Rand(rnd_, evaluation_, population_size)
+				.WithIslandization(island_count);
 
 		int evals = 100;
+
         while(evals<evaluations_limit_){
-            // Select parents
+            int size = population.GetPopulationSize();
+        	// Select parents
             // Apply crossover / mutation operators
             double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
             // Check fitness of unknown fuction
-            Double fitness = (double) evaluation_.evaluate(child);
+            Double fitness = (double) evaluation_.evaluate(population.getRandomIndividual());
             evals++;
             // Select survivors
         }
