@@ -15,7 +15,8 @@ public class Island {
         this.IslandParameters = islandParameters;
     }
 
-    public Island Evolve(ContestEvaluation eval) {
+    public Island Evolve(ContestEvaluation eval)
+    {
         List<Individual> children = MakeChildren(eval);
 
         List<Individual> pool = new ArrayList<>(IslandPopulation);
@@ -25,7 +26,8 @@ public class Island {
         return new Island(pool.subList(0, IslandPopulation.size()), this.IslandParameters);
     }
 
-    private List<Individual> MakeChildren(ContestEvaluation eval) {
+    private List<Individual> MakeChildren(ContestEvaluation eval)
+    {
         List<Individual> children = new ArrayList<>();
         while(children.size() < IslandPopulation.size())
         {
@@ -34,12 +36,28 @@ public class Island {
             if(mutationDiceRoll < IslandParameters.MutationChance)
             {
                 Individual singleParent = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize);
-                Individual child = singleParent.Mutate(IslandParameters.MutationStepSizeMultiplier, eval);
+                Individual child = singleParent.Mutate(IslandParameters.MutationStepSizeMultiplier);
                 children.add(child);
                 continue;
             }
 
+            Individual mom = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize);
+            Individual dad;
+            do {
+                dad = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize);
+            } while(mom.equals(dad));
 
+            double crossoverDiceRoll = rand.nextDouble();
+            if(crossoverDiceRoll < IslandParameters.CrossoverMethodChance)
+            { //do whole arithmetic xover
+                Individual child = Operators.AritmeticalXover(mom, dad);
+                children.add(child);
+            }
+            else
+            { //do blend crossover
+                Individual child = Operators.BlendCrossover(mom, dad);
+                children.add(child);
+            }
         }
 
         return children;
