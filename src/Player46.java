@@ -17,7 +17,12 @@ public class Player46 implements ContestSubmission
 
 	public static void main(String args[]){
 		Player46 player = new Player46();
-		player.run();
+		try {
+			player.setEvaluation(new SphereEvaluation());
+			player.run();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setSeed(long seed)
@@ -30,7 +35,7 @@ public class Player46 implements ContestSubmission
 	{
 		// Set evaluation problem used in the run
 		evaluation_ = evaluation;
-		
+
 		// Get evaluation properties
 		Properties props = evaluation.getProperties();
         // Get evaluation limit
@@ -53,7 +58,7 @@ public class Player46 implements ContestSubmission
 	{
 		Population population = Population.InitPopulationWithFitness_Rand(rnd_, evaluation_);
 
-		int evals = 0;
+		int evals = 100;
         while(evals<evaluations_limit_){
             // Select parents
             // Apply crossover / mutation operators
