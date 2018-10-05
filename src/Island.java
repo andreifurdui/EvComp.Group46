@@ -15,7 +15,7 @@ public class Island {
         this.IslandParameters = islandParameters;
     }
 
-    public Island Evolve(ContestEvaluation eval)
+    public void Evolve(ContestEvaluation eval)
     {
         List<Individual> children = MakeChildren(eval);
 
@@ -23,7 +23,7 @@ public class Island {
         pool.addAll(children);
         Collections.sort(pool, Individual.Comparator);
 
-        return new Island(pool.subList(0, IslandPopulation.size()), this.IslandParameters);
+        this.IslandPopulation = pool.subList(0, IslandPopulation.size());
     }
 
     private List<Individual> MakeChildren(ContestEvaluation eval)

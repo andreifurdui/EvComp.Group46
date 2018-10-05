@@ -38,6 +38,18 @@ public class Population {
         return new Population(pop);
     }
 
+    public Population ReshuffleIslands(int islandCount) {
+        List<Individual> everyone = new ArrayList<>(Islands.get(0).IslandPopulation);
+        for (int i = 1; i < Islands.size(); i++) {
+            everyone.addAll(Islands.get(i).IslandPopulation);
+        }
+
+        Population newPopulation = new Population(everyone)
+                .WithIslandization(islandCount);
+
+        return newPopulation;
+    }
+
     public Population WithIslandization(int island_count)
     {
         List<Individual>[] islands = new List[island_count];

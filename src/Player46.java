@@ -13,7 +13,7 @@ public class Player46 implements ContestSubmission
     private int evaluations_limit_;
 	private int island_count = 4;
 	private int population_size = 100;
-	private int epoch_length = 100;
+	private int epoch_length = 20;
 	public Player46()
 	{
 		rnd_ = new Random();
@@ -66,19 +66,20 @@ public class Player46 implements ContestSubmission
 
 		int evals = 100;
 
-        while(evals<evaluations_limit_){
+        while(evals<evaluations_limit_)
+        {
             int epochs = 0;
-			for (int island = 0; island < island_count; island++) {
-				population.Islands.get(island).Evolve(evaluation_);
+            while(epochs < epoch_length)
+			{
+				for (int island = 0; island < island_count; island++) {
+					population.Islands.get(island).Evolve(evaluation_);
+				}
+				evals += 100;
+				epochs++;
 			}
-        	// Select parents
-            // Apply crossover / mutation operators
-            double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-            // Check fitness of unknown fuction
-            Double fitness = (double) evaluation_.evaluate(population.getRandomIndividual());
-            evals++;
-            // Select survivors
-        }
+
+			population = population.ReshuffleIslands(island_count);
+		}
 
 	}
 }
