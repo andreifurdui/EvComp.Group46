@@ -1,21 +1,31 @@
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Operators {
 
     private static Random rand = new Random();
 
-    public static Individual TournamentSelect(List<Individual> competitors, int tournamentSize)
+    public static List<Individual> TournamentSelect(List<Individual> competitors, int tournamentSize, int championCount)
     {
-        int best = competitors.size();
+        List<Individual> champions = new ArrayList<>(championCount);
+        Set<Integer> selected = new HashSet<Integer>();
 
-        for (int i = 0; i < tournamentSize; i++)
+        while(champions.size() < championCount)
         {
-            int drawn =  rand.nextInt(competitors.size());
-            best = drawn < best ? drawn : best;
+            int best = competitors.size()+1;
+            for (int i = 0; i < tournamentSize; i++)
+            {
+                int drawn =  rand.nextInt(competitors.size());
+                best = drawn < best ? drawn : best;
+            }
+
+            if(!selected.contains(best))
+            {
+                champions.add(competitors.get(best));
+                selected.add(best);
+            }
         }
 
-        return competitors.get(best);
+        return champions;
     }
 
     public static Individual AritmeticalXover(Individual mom, Individual dad)

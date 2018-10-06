@@ -23,28 +23,36 @@ public class Island {
         pool.addAll(children);
         Collections.sort(pool, Individual.Comparator);
 
-        this.IslandPopulation = pool.subList(0, IslandPopulation.size());
+        List<Individual> elites = IslandParameters.ElitistSurvivors != 0 ?
+                pool.subList(0, IslandParameters.ElitistSurvivors) :
+                new ArrayList<>();
+
+        List<Individual> survivors = Operators.TournamentSelect(pool.subList(IslandParameters.ElitistSurvivors, pool.size()), IslandParameters.TournamentSize, IslandPopulation.size() - elites.size());
+        survivors.addAll(elites);
+        Collections.sort(survivors, Individual.Comparator);
+
+        this.IslandPopulation = survivors;
     }
 
     private List<Individual> MakeChildren(ContestEvaluation eval)
     {
         List<Individual> children = new ArrayList<>();
-        while(children.size() < IslandPopulation.size())
+        while(children.size() < (IslandPopulation.size() * .75))
         {
             double mutationDiceRoll = rand.nextDouble();
 
             if(mutationDiceRoll < IslandParameters.MutationChance)
             {
-                Individual singleParent = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize);
+                Individual singleParent = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize, 1).get(0);
                 Individual child = singleParent.Mutate(IslandParameters.MutationStepSizeMultiplier);
                 children.add(child);
                 continue;
             }
 
-            Individual mom = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize);
+            Individual mom = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize,1).get(0);
             Individual dad;
             do {
-                dad = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize);
+                dad = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize,1).get(0);
             } while(mom.equals(dad));
 
             double crossoverDiceRoll = rand.nextDouble();
