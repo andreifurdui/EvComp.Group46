@@ -37,7 +37,7 @@ public class Island {
     private List<Individual> MakeChildren(ContestEvaluation eval)
     {
         List<Individual> children = new ArrayList<>();
-        while(children.size() < (IslandPopulation.size() * .75))
+        while(children.size() < (IslandPopulation.size() * .8))
         {
             double mutationDiceRoll = rand.nextDouble();
 

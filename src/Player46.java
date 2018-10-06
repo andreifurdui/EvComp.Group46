@@ -78,7 +78,7 @@ public class Player46 implements ContestSubmission
 				epochs++;
 			}
 
-			population = population.ReshuffleIslands(island_count);
+			population = population.Migrate(island_count);
 		}
 
 	}
