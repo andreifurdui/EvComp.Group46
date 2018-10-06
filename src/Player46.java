@@ -62,11 +62,11 @@ public class Player46 implements ContestSubmission
 	{
 		Population population = Population
 				.InitPopulationWithFitness_Rand(evaluation_, population_size)
-				.WithIslandization(island_count);
+				.WithRandomIslandization(island_count);
 
 		int evals = 100;
 
-        while(evals<evaluations_limit_)
+        while(evals + 100*epoch_length <evaluations_limit_)
         {
             int epochs = 0;
             while(epochs < epoch_length)

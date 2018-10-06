@@ -45,7 +45,7 @@ public class Population {
         }
 
         Population newPopulation = new Population(everyone)
-                .WithIslandization(islandCount);
+                .WithRandomIslandization(islandCount);
 
         return newPopulation;
     }
@@ -64,6 +64,26 @@ public class Population {
             int islandBucket = islandNumber < 1 ? 0 : islandNumber < 2 ? 1 : islandNumber < 3 ? 2 : 3;
 
             islands[islandBucket].add(this.Population.get(i));
+        }
+
+        return new Population(this.Population, islands, island_count);
+    }
+
+    public Population WithRandomIslandization(int island_count)
+    {
+        List<Individual>[] islands = new List[island_count];
+
+        for (int i = 0; i < island_count; i++) {
+            islands[i] = new ArrayList<Individual>();
+        }
+
+        for (int i = 0; i < this.Population.size(); i++) {
+            int diceRoll = rand.nextInt(4);
+            while(islands[diceRoll].size() == 25){
+                diceRoll = rand.nextInt(4);
+            }
+
+            islands[diceRoll].add(this.Population.get(i));
         }
 
         return new Population(this.Population, islands, island_count);

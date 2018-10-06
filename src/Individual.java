@@ -21,7 +21,7 @@ public class Individual {
     public Individual(double[] geneValues, double mutationStepSize)
     {
         this.Genes = new Genotype(geneValues);
-        this.Fitness = (double)eval.evaluate(geneValues);
+        this.Fitness = (double)eval.evaluate(Genes.Values);
         this.MutationStepSize = mutationStepSize;
     }
 

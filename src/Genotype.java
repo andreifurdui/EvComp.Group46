@@ -6,7 +6,25 @@ public class Genotype {
     public double[] Values;
 
     public Genotype(double[] values){
-        this.Values = values;
+        this.Values = Bounded(values);
+    }
+
+    private double[] Bounded(double[] values)
+    {
+        for (int i = 0; i < 10; i++) {
+            values[i] = Bounded(values[i]);
+        }
+
+        return values;
+    }
+
+    private double Bounded(double value)
+    {
+        return value < -5 ?
+                -5 :
+                value > 5 ?
+                        5 :
+                        value;
     }
 
     public static Genotype Create_Rand(Random rand) {
