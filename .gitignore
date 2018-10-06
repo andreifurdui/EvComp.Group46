@@ -16,10 +16,11 @@
 .settings
 
 # Idea
-#.idea
-#*.iml
-#*.iws
-#*.ipr
+.idea/workspace.xml
+.idea
+*.iml
+*.iws
+*.ipr
 
 # OS
 Thumbs.db
@@ -38,7 +39,7 @@ hs_err_pid*
 
 # assignment specifics
 tmp/**
-
+group-46-idea/out/production/group46-module/tmp/
 # Gradle
 .gradle
 !gradle-wrapper.jar
