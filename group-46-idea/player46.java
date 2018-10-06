@@ -17,8 +17,11 @@ public class player46 implements ContestSubmission
     private int[] min_max = {-5,5};
     private int fitness_index = indiv_dim;
     private double p_crossover = 0.9;
-    private double p_mutation = 0.2;
-    private double mutation_step_size = 0.5;
+    private double p_mutation = 0.5;
+    private double mutation_step_size = 0.1;
+    private int tournament_size_parent_selection = 3;
+	private int tournament_size_survival_selection = 5;
+	private double weaker_offspring_survival_prop = 0.3;
 
 	private double pop [][] = new double[pop_size][indiv_dim + 1];
 
@@ -66,8 +69,16 @@ public class player46 implements ContestSubmission
         }
     }
 
-	private void tournament_selection() {
-		int tournament_size = 5;
+	private void tournament_selection(boolean for_parent_not_survival) {
+		int tournament_size;
+
+		if (for_parent_not_survival){
+			tournament_size = tournament_size_parent_selection;
+		}
+		else {
+			tournament_size = tournament_size_survival_selection;
+		}
+
 		int[] fighters = new int[2*tournament_size];
 		boolean already_in;
 
@@ -85,23 +96,47 @@ public class player46 implements ContestSubmission
 			}while (already_in);
 		}
 
+		if (for_parent_not_survival){
+			// set first fighters as candidates
+			parA = Arrays.copyOf(pop[fighters[0]], pop[fighters[0]].length);
+			parB = Arrays.copyOf(pop[fighters[tournament_size]], pop[fighters[tournament_size]].length);
 
-		// set first fighters as candidates
-		parA = Arrays.copyOf(pop[fighters[0]],pop[fighters[0]].length);
-		parB = Arrays.copyOf(pop[fighters[5]],pop[fighters[5]].length);
+			// set tournament
+			for (int battle = 1; battle < tournament_size; battle++) {
 
-		// set tournament
-		for (int battle = 1; battle < tournament_size; battle++) {
+				if (pop[fighters[battle]][fitness_index] > parA[fitness_index]) {
+					parA = Arrays.copyOf(pop[fighters[battle]], pop[fighters[battle]].length);
+				}
 
-			if (pop[fighters[battle]][fitness_index] > parA[fitness_index]) {
-				parA = Arrays.copyOf(pop[fighters[battle]],pop[fighters[battle]].length);
-			}
-
-			if (pop[fighters[battle+5]][fitness_index] > parB[fitness_index]) {
-				parB = Arrays.copyOf(pop[fighters[battle+5]],pop[fighters[battle+5]].length);
+				if (pop[fighters[battle + tournament_size]][fitness_index] > parB[fitness_index]) {
+					parB = Arrays.copyOf(pop[fighters[battle + tournament_size]], pop[fighters[battle + tournament_size]].length);
+				}
 			}
 		}
+		else {
+			// set tournament
+			int worst_fighterA = fighters[0];
+			int worst_fighterB = fighters[tournament_size];
 
+			for (int battle = 1; battle < tournament_size; battle++) {
+
+				if (pop[fighters[battle]][fitness_index] < pop[worst_fighterA][fitness_index]) {
+					worst_fighterA=fighters[battle];
+				}
+
+				if (pop[fighters[battle + tournament_size]][fitness_index] < pop[worst_fighterB][fitness_index]) {
+					worst_fighterB=fighters[battle+tournament_size];
+				}
+			}
+
+			if(rnd_.nextDouble() <= weaker_offspring_survival_prop | pop[worst_fighterA][fitness_index]<=offspringA[fitness_index]) {
+				pop[worst_fighterA] = Arrays.copyOf(offspringA, offspringA.length);
+			}
+
+			if(rnd_.nextDouble() <= weaker_offspring_survival_prop | pop[worst_fighterB][fitness_index]<=offspringB[fitness_index]) {
+				pop[worst_fighterB] = Arrays.copyOf(offspringB, offspringB.length);
+			}
+		}
 
 		if(Arrays.equals(parA,parB)){
 			System.out.println("Equal!!!");
@@ -174,11 +209,15 @@ public class player46 implements ContestSubmission
 		}
 	}
 
-	private void ranking_selection(){
-		// put offspring A into sorted population
+	private void ranking_survivor_selection(){
+		// sort pop from highest to lowest fittest
+		Arrays.sort(pop, Collections.reverseOrder(Comparator.comparingDouble(a -> a[fitness_index])));
+		// put offspring A & B into sorted population
 		pop[pop.length-1] = Arrays.copyOf(offspringA, offspringA.length);
 		pop[pop.length-2] = Arrays.copyOf(offspringB, offspringB.length);
 	}
+
+
 
 	public void run()
 	{
@@ -198,11 +237,9 @@ public class player46 implements ContestSubmission
 		}
 
         while(evals<evaluations_limit_){
-			// sort pop from highest to lowest fittest
-			Arrays.sort(pop, Collections.reverseOrder(Comparator.comparingDouble(a -> a[fitness_index])));
 
-            // select parent through method x
-			tournament_selection();
+			// select parent through method x
+			tournament_selection(true);
 
 			// create offspring from selected parents by method x
 			one_point_crossover();
@@ -210,18 +247,18 @@ public class player46 implements ContestSubmission
 			// mutate offspring
 			nonuniform_mutation();
 
-			// calculate fitness of offspring A & B
+			// calculate fitness of offspring A
 			double[] genotypeA = Arrays.copyOfRange(offspringA, 0, offspringA.length-1);
 			offspringA[fitness_index] = (double) evaluation_.evaluate(genotypeA);
 			evals++;
 
-			// calculate fitness of offspring A & B
+			// calculate fitness of offspring B
 			double[] genotypeB = Arrays.copyOfRange(offspringB, 0, offspringB.length-1);
 			offspringB[fitness_index] = (double) evaluation_.evaluate(genotypeB);
 			evals++;
 
 			// select individuals to be replaced by method x
-			ranking_selection();
+			tournament_selection(false);
         }
 	}
 
