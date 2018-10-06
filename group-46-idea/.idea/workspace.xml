@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e027099b-b1e6-433d-be43-37829d38e0c4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/group46-module/tmp/bbobexp_f12.info" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/group46-module/tmp/data_f12/bbobexp_f12_DIM10.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/group46-module/tmp/data_f12/bbobexp_f12_DIM10.rdat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/group46-module/tmp/data_f12/bbobexp_f12_DIM10.tdat" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/player46.java" beforeDir="false" afterPath="$PROJECT_DIR$/player46.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -82,24 +77,26 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="6068" />
+          <entry key="java" value="6154" />
           <entry key="txt" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="6068" />
+          <entry key="JAVA" value="6154" />
           <entry key="PLAIN_TEXT" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="class" value="3" />
+          <entry key="class" value="7" />
+          <entry key="md" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CLASS" value="3" />
+          <entry key="CLASS" value="7" />
+          <entry key="Markdown" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.run.usages" />
@@ -116,10 +113,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player46.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1632">
-              <caret line="21" column="52" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
+            <state relative-caret-position="60">
+              <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1084#1085#0" expanded="true" />
+                <element signature="e#1117#1118#0" expanded="true" />
+                <element signature="e#1140#1141#0" expanded="true" />
+                <element signature="e#1166#1167#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -173,32 +174,6 @@
             </path>
             <path>
               <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="group-46-idea" type="462c0819:PsiDirectoryNode" />
-              <item name="javabbob" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="group-46-idea" type="462c0819:PsiDirectoryNode" />
-              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="group-46-idea" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="group-46-idea" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="group-46-idea" type="462c0819:PsiDirectoryNode" />
-              <item name="contest.jar" type="ab9368bb:PsiFileNode" />
-            </path>
-            <path>
-              <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
@@ -215,7 +190,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538822727953" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538835731007" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="$USER_HOME$/.nvm/versions/node/v8.2.1/bin/node" />
@@ -247,7 +222,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JAR Application.Katsuura">
+  <component name="RunManager" selected="JAR Application.BentCigar">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -625,7 +600,7 @@
     <configuration name="Sphere" type="JarApplication" factoryName="JAR Application">
       <option name="JAR_PATH" value="$PROJECT_DIR$/out/production/group46-module//testrun.jar" />
       <option name="VM_PARAMETERS" value="-Djava.library.path=$PROJECT_DIR$" />
-      <option name="PROGRAM_PARAMETERS" value="-submission=player46 -evaluation=SphereEvaluation -seed=1" />
+      <option name="PROGRAM_PARAMETERS" value="-submission=player46 -evaluation=SphereEvaluation -seed=6" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/out/production/group46-module/" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2" />
@@ -744,7 +719,7 @@
       <workItem from="1537341775636" duration="15607000" />
       <workItem from="1537368940316" duration="6617000" />
       <workItem from="1537433812656" duration="2668000" />
-      <workItem from="1538811043916" duration="9692000" />
+      <workItem from="1538811043916" duration="14093000" />
     </task>
     <task id="LOCAL-00001" summary="First Draft; Crossover has to be updated">
       <created>1537384001272</created>
@@ -757,10 +732,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53844000" />
+    <option name="totallyTimeSpent" value="58245000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1987" y="25" width="2493" height="1415" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" order="0" visible="true" weight="0.14711893" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -859,6 +835,18 @@
     <MESSAGE value="First Draft; Crossover has to be updated" />
     <option name="LAST_COMMIT_MESSAGE" value="First Draft; Crossover has to be updated" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/player46.java</url>
+          <line>148</line>
+          <properties />
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
@@ -871,13 +859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/contest.jar!/org/vu/contest/ContestEvaluation.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/lang/System.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -885,12 +866,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/contest.jar!/org/vu/contest/ContestEvaluation.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/contest.jar!/org/vu/contest/ContestRecords.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-207">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/contest.jar!/org/vu/contest/EntryComparator.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/contest.jar!/org/vu/contest/ContestSubmission.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/player46.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1632">
-          <caret line="21" column="52" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
+        <state relative-caret-position="60">
+          <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1084#1085#0" expanded="true" />
+            <element signature="e#1117#1118#0" expanded="true" />
+            <element signature="e#1140#1141#0" expanded="true" />
+            <element signature="e#1166#1167#0" expanded="true" />
           </folding>
         </state>
       </provider>

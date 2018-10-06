@@ -16,11 +16,11 @@ public class player46 implements ContestSubmission
     private int indiv_dim = 10;
     private int[] min_max = {-5,5};
     private int fitness_index = indiv_dim;
-    private double p_crossover = 0.9;
-    private double p_mutation = 0.5;
-    private double mutation_step_size = 0.1;
-    private int tournament_size_parent_selection = 3;
-	private int tournament_size_survival_selection = 5;
+    private double p_crossover = 1;
+    private double p_mutation = 0.3;
+    private double mutation_step_size = 0.6;
+    private int tournament_size_parent_selection = 4;
+	private int tournament_size_survival_selection = 4;
 	private double weaker_offspring_survival_prop = 0.3;
 
 	private double pop [][] = new double[pop_size][indiv_dim + 1];
@@ -137,16 +137,6 @@ public class player46 implements ContestSubmission
 				pop[worst_fighterB] = Arrays.copyOf(offspringB, offspringB.length);
 			}
 		}
-
-		if(Arrays.equals(parA,parB)){
-			System.out.println("Equal!!!");
-		}
-		System.out.println("Parent A");
-		System.out.println(Arrays.toString(parA));
-		System.out.println("Parent B");
-		System.out.print(Arrays.toString(parB));
-		System.out.println("\n");
-
 	}
 
 	private void one_point_crossover(){
@@ -241,25 +231,28 @@ public class player46 implements ContestSubmission
 			// select parent through method x
 			tournament_selection(true);
 
-			// create offspring from selected parents by method x
-			one_point_crossover();
+			if(!Arrays.equals(parA,parB)) {
+				// create offspring from selected parents by method x
+				one_point_crossover();
 
-			// mutate offspring
-			nonuniform_mutation();
+				// mutate offspring
+				nonuniform_mutation();
 
-			// calculate fitness of offspring A
-			double[] genotypeA = Arrays.copyOfRange(offspringA, 0, offspringA.length-1);
-			offspringA[fitness_index] = (double) evaluation_.evaluate(genotypeA);
-			evals++;
+				// calculate fitness of offspring A
+				double[] genotypeA = Arrays.copyOfRange(offspringA, 0, offspringA.length - 1);
+				offspringA[fitness_index] = (double) evaluation_.evaluate(genotypeA);
+				evals++;
 
-			// calculate fitness of offspring B
-			double[] genotypeB = Arrays.copyOfRange(offspringB, 0, offspringB.length-1);
-			offspringB[fitness_index] = (double) evaluation_.evaluate(genotypeB);
-			evals++;
+				// calculate fitness of offspring B
+				double[] genotypeB = Arrays.copyOfRange(offspringB, 0, offspringB.length - 1);
+				offspringB[fitness_index] = (double) evaluation_.evaluate(genotypeB);
+				evals++;
 
-			// select individuals to be replaced by method x
-			tournament_selection(false);
+				// select individuals to be replaced by method x
+				tournament_selection(false);
+			}
         }
 	}
 
 }
+
