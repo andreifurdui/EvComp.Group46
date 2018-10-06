@@ -1,3 +1,4 @@
+import org.jetbrains.annotations.NotNull;
 import org.vu.contest.ContestSubmission;
 import org.vu.contest.ContestEvaluation;
 
@@ -15,6 +16,9 @@ public class player46 implements ContestSubmission
     private int indiv_dim = 10;
     private int[] min_max = {-5,5};
     private int fitness_index = indiv_dim;
+    private double p_crossover = 0.9;
+    private double p_mutation = 0.2;
+    private double mutation_step_size = 0.5;
 
 	private double pop [][] = new double[pop_size][indiv_dim + 1];
 
@@ -112,21 +116,62 @@ public class player46 implements ContestSubmission
 
 	private void one_point_crossover(){
 
-		// get random crossover point
-		int co_indx = rnd_.nextInt(indiv_dim - 1) + 1;
+		if(p_crossover >= rnd_.nextDouble()) {
+			// get random crossover point
+			int co_indx = rnd_.nextInt(indiv_dim - 1) + 1;
 
-		// cut the genes at crossover point
-		double[] parA_genes1 = Arrays.copyOfRange(parA, 0, co_indx);
-		double[] parA_genes2 = Arrays.copyOfRange(parA, co_indx, parA.length - 1);
-		double[] parB_genes1 = Arrays.copyOfRange(parB, 0, co_indx);
-		double[] parB_genes2 = Arrays.copyOfRange(parB, co_indx, parB.length - 1);
+			// cut the genes at crossover point
+			double[] parA_genes1 = Arrays.copyOfRange(parA, 0, co_indx);
+			double[] parA_genes2 = Arrays.copyOfRange(parA, co_indx, parA.length - 1);
+			double[] parB_genes1 = Arrays.copyOfRange(parB, 0, co_indx);
+			double[] parB_genes2 = Arrays.copyOfRange(parB, co_indx, parB.length - 1);
 
-		// add the pieces to create new offspring
-		System.arraycopy(parA_genes1, 0, offspringA, 0, parA_genes1.length);
-		System.arraycopy(parB_genes2, 0, offspringA, parA_genes1.length, parB_genes2.length);
+			// add the pieces to create new offspring
+			System.arraycopy(parA_genes1, 0, offspringA, 0, parA_genes1.length);
+			System.arraycopy(parB_genes2, 0, offspringA, parA_genes1.length, parB_genes2.length);
 
-		System.arraycopy(parB_genes1, 0, offspringB, 0, parB_genes1.length);
-		System.arraycopy(parA_genes2, 0, offspringB, parB_genes1.length, parA_genes2.length);
+			System.arraycopy(parB_genes1, 0, offspringB, 0, parB_genes1.length);
+			System.arraycopy(parA_genes2, 0, offspringB, parB_genes1.length, parA_genes2.length);
+		}
+		else {
+			System.arraycopy(parA, 0, offspringA, 0, parA.length-1);
+			System.arraycopy(parB, 0, offspringB, 0, parB.length-1);
+		}
+	}
+
+	private void nonuniform_mutation(){
+		// create delta vectors
+		double[] delta_A = new double[offspringA.length - 1];
+		double[] delta_B = new double[offspringB.length - 1];
+
+		for (int i=0; i < offspringA.length-1; i++){
+			if(p_mutation >= rnd_.nextDouble()) {
+				// get delta for A and add to offspring
+				delta_A[i] = rnd_.nextGaussian()*mutation_step_size;
+				sum_in_range(delta_A, i, offspringA);
+			}
+
+			if(p_mutation >= rnd_.nextDouble()) {
+				// get delta for B and add to offspring
+				delta_B[i] = rnd_.nextGaussian()*mutation_step_size;
+				sum_in_range(delta_B, i, offspringB);
+			}
+		}
+	}
+
+	private void sum_in_range(@NotNull double[] delta, int i, @NotNull double[] offspring) {
+		// if in range add
+		if (min_max[0] < offspring[i] + delta[i] &&  offspring[i] + delta[i] < min_max[1]){
+			offspring[i] += delta[i];
+		}
+		// if under lower bound set to min
+		else if(min_max[0] > offspring[i] + delta[i]){
+			offspring[i] = min_max[0];
+		}
+		// if above upper bound set to max
+		else if(min_max[1] < offspring[i] + delta[i]){
+			offspring[i] = min_max[1];
+		}
 	}
 
 	private void ranking_selection(){
@@ -161,6 +206,9 @@ public class player46 implements ContestSubmission
 
 			// create offspring from selected parents by method x
 			one_point_crossover();
+
+			// mutate offspring
+			nonuniform_mutation();
 
 			// calculate fitness of offspring A & B
 			double[] genotypeA = Arrays.copyOfRange(offspringA, 0, offspringA.length-1);
