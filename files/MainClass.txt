@@ -1,1 +1,1 @@
-Main-Class: Player46
+Main-Class: main.Player46

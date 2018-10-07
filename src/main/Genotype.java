@@ -1,3 +1,8 @@
+package main;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 public class Genotype {
@@ -7,6 +12,17 @@ public class Genotype {
 
     public Genotype(double[] values){
         this.Values = Bounded(values);
+    }
+
+    public static List<String> getLogHeader()
+    {
+        List<String> header = new ArrayList<>();
+
+        for (int i = 0; i < GenotypeLength; i++) {
+            header.add("X_" + i);
+        }
+
+        return header;
     }
 
     private double[] Bounded(double[] values)
@@ -35,5 +51,16 @@ public class Genotype {
         }
 
         return new Genotype(values);
+    }
+
+    public List<String> Log()
+    {
+        List<String> log = new ArrayList<>();
+
+        for (int i = 0; i < GenotypeLength; i++) {
+            log.add(Double.toString(Values[i]));
+        }
+
+        return log;
     }
 }

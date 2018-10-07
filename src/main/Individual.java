@@ -1,7 +1,8 @@
+package main;
+
 import org.vu.contest.ContestEvaluation;
 
-import java.util.Comparator;
-import java.util.Random;
+import java.util.*;
 
 public class Individual {
     public Genotype Genes;
@@ -34,6 +35,17 @@ public class Individual {
         return new Individual(genotype, (double)evaluation_.evaluate(genotype.Values));
     }
 
+    public static List<String> getLogHeader()
+    {
+        List<String> header = new ArrayList<>();
+
+        header.addAll(Genotype.getLogHeader());
+        header.add("Fitness");
+        header.add("MutationStepSize");
+
+        return header;
+    }
+
     public Individual Mutate(double mutationStepSizeMultiplier) {
         double[] mutatedGenes = new double[10];
         for (int i = 0; i < 10; i++) {
@@ -41,6 +53,16 @@ public class Individual {
         }
 
         return new Individual(mutatedGenes, this.MutationStepSize);
+    }
+
+    public List<String> Log()
+    {
+        List<String> log = new ArrayList<>(Genes.Log());
+
+        log.add(Double.toString(Fitness));
+        log.add(Double.toString(MutationStepSize));
+
+        return log;
     }
 
     static class SortByFitness implements Comparator<Individual>{

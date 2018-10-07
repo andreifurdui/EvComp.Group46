@@ -1,13 +1,17 @@
+package main;
+
 import org.vu.contest.ContestEvaluation;
 import org.vu.contest.ContestSubmission;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.Properties;
 
 public class Player46 implements ContestSubmission
 {
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+
 	Random rnd_;
 	ContestEvaluation evaluation_;
     private int evaluations_limit_;
@@ -22,7 +26,7 @@ public class Player46 implements ContestSubmission
 	public static void main(String args[]){
 		Player46 player = new Player46();
 		try {
-			player.setEvaluation(new SphereEvaluation());
+
 			player.run();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,6 +68,9 @@ public class Player46 implements ContestSubmission
 				.InitPopulationWithFitness_Rand(evaluation_, population_size)
 				.WithRandomIslandization(island_count);
 
+		Logger islandLog = new Logger("Island Evolution" + sdf.format(new Timestamp(System.currentTimeMillis())));
+		islandLog.AddRow(population.getLogHeader());
+
 		int evals = 100;
 
         while(evals + 100*epoch_length <evaluations_limit_)
@@ -74,6 +81,7 @@ public class Player46 implements ContestSubmission
 				for (int island = 0; island < island_count; island++) {
 					population.Islands.get(island).Evolve(evaluation_);
 				}
+				islandLog.AddRows(population.GetGenerationLog());
 				evals += 100;
 				epochs++;
 			}
@@ -81,5 +89,6 @@ public class Player46 implements ContestSubmission
 			population = population.Migrate(island_count);
 		}
 
+		islandLog.WriteLog();
 	}
 }

@@ -1,11 +1,14 @@
+package main;
+
 import org.vu.contest.ContestEvaluation;
 
 import java.util.*;
-
 public class Population {
 
     public List<Individual> Population;
     public List<Island> Islands;
+
+    public int Epoch;
 
     private static Random rand = new Random();
 
@@ -14,16 +17,16 @@ public class Population {
         Collections.sort(population, Individual.Comparator);
         this.Population = population;
 
+        this.Epoch = 1;
         this.Islands = new ArrayList<>();
     }
 
     public Population(List<Individual> population, List<Individual>[] islands, int islandCount)
     {
         this.Population = population;
-
         this.Islands = new ArrayList<>();
         for (int i = 0; i < islandCount; i++) {
-            this.Islands.add(new Island(islands[i], IslandParameters.GetIslandParameters(islands[i].size(), i)));
+            this.Islands.add(new Island(i, islands[i], IslandParameters.GetIslandParameters(islands[i].size(), i)));
         }
     }
 
@@ -81,6 +84,7 @@ public class Population {
             Collections.sort(Islands.get(i).IslandPopulation, Individual.Comparator);
         }
 
+        this.Epoch++;
         return this;
     }
 
@@ -131,5 +135,71 @@ public class Population {
     public Individual getRandomIndividual()
     {
         return Population.get(rand.nextInt(100));
+    }
+
+    public List<String[]> GetGenerationLog()
+    {
+        List<String[]> log = new ArrayList<>();
+
+        if(this.Islands.size() > 1)
+        {
+            for (Island island: Islands)
+            {
+                 log.addAll(island.Log(Integer.toString(Epoch)));
+            }
+        }
+        else
+        {
+            log.addAll(GetPopulationLog());
+        }
+
+        return log;
+    }
+
+    private List<String[]> GetPopulationLog()
+    {
+        List<String[]> log = new ArrayList<>();
+        List<String> populationMeta = GetPopulationMeta();
+
+        for (Individual ind: Population)
+        {
+            List<String> indLog = ind.Log();
+            indLog.addAll(populationMeta);
+
+            log.add(indLog.toArray(new String[0]));
+        }
+
+        return log;
+    }
+
+    private List<String> GetPopulationMeta()
+    { // add your main.Population stats
+        return null;
+    }
+
+    public String[] getLogHeader()
+    { // keep same add order as in the data
+        List<String> header = new ArrayList<>();
+
+        if(this.Islands.size() > 1)
+        {
+            header.addAll(Island.getLogHeader());
+            header.add("Epoch");
+        }
+        else
+        {
+            header.addAll(main.Population.getPopulationLogHeader());
+        }
+
+        return header.toArray(new String[0]);
+    }
+
+    public static List<String> getPopulationLogHeader()
+    {
+        List<String> header = new ArrayList<>();
+
+        //add population data headers (variable names)
+
+        return header;
     }
 }

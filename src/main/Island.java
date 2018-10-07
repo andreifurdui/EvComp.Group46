@@ -1,18 +1,37 @@
+package main;
+
 import org.vu.contest.ContestEvaluation;
 
 import java.util.*;
 
 public class Island {
 
+    public int IslandIndex;
+    public int Generation;
     public List<Individual> IslandPopulation;
     public IslandParameters IslandParameters;
 
     private static Random rand = new Random();
 
-    public Island(List<Individual> island, IslandParameters islandParameters)
+    public Island(int islandIndex, List<Individual> island, IslandParameters islandParameters)
     {
+        this.IslandIndex = islandIndex;
+        this.Generation = 1;
         this.IslandPopulation = island;
         this.IslandParameters = islandParameters;
+    }
+
+    public static List<String> getLogHeader()
+    {
+        List<String> header = new ArrayList<>();
+
+        header.addAll(Individual.getLogHeader());
+        header.add("IslandIndex");
+        header.add("Generation");
+        header.add("IslandIndex");
+        header.addAll(main.IslandParameters.getHeaderLog());
+
+        return header;
     }
 
     public void Evolve(ContestEvaluation eval)
@@ -32,6 +51,7 @@ public class Island {
         Collections.sort(survivors, Individual.Comparator);
 
         this.IslandPopulation = survivors;
+        this.Generation++;
     }
 
     private List<Individual> MakeChildren(ContestEvaluation eval)
@@ -69,5 +89,33 @@ public class Island {
         }
 
         return children;
+    }
+
+    public List<String[]> Log(String epoch)
+    {
+        List<String[]> log = new ArrayList<>();
+        List<String> metaIslandLog = GetIslandMeta();
+
+        for (Individual ind: IslandPopulation)
+        {
+            List<String> indLog = ind.Log();
+            indLog.addAll(metaIslandLog);
+            indLog.add(epoch);
+
+            log.add(indLog.toArray(new String[0]));
+        }
+
+        return log;
+    }
+
+    public List<String> GetIslandMeta()
+    {
+        List<String> islandMeta = new ArrayList<>();
+
+        islandMeta.add(Integer.toString(IslandIndex));
+        islandMeta.add(Integer.toString(Generation));
+        islandMeta.addAll(IslandParameters.Log());
+
+        return islandMeta;
     }
 }
