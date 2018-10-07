@@ -1,6 +1,9 @@
 import org.jetbrains.annotations.NotNull;
 import org.vu.contest.ContestSubmission;
 import org.vu.contest.ContestEvaluation;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.lang.*;
 
 import java.util.*;
 
@@ -10,26 +13,32 @@ public class player46 implements ContestSubmission
 {
 	private Random rnd_;
 	private ContestEvaluation evaluation_;
+	private int evals = 0;
 
     private int evaluations_limit_;
     private int pop_size = 100;
     private int indiv_dim = 10;
-    private int[] min_max = {-5,5};
+    private double[] min_max = {-5,5};
     private int fitness_index = indiv_dim;
     private double p_crossover = 1;
-    private double p_mutation = 0.3;
-    private double mutation_step_size = 0.6;
-    private int tournament_size_parent_selection = 4;
-	private int tournament_size_survival_selection = 4;
+    private double p_mutation = 1;
+    private double mutation_step_size_start = 2;
+    private double mutation_tau_apos = 1/Math.sqrt(2*indiv_dim);
+    private double mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim));
+
+    private double alpha = 0.8;
+
+    private int tournament_size_parent_selection = 2;
+	private int tournament_size_survival_selection = 2;
 	private double weaker_offspring_survival_prop = 0.3;
 
-	private double pop [][] = new double[pop_size][indiv_dim + 1];
+	private ArrayList<Individual> pops = new ArrayList<>();
 
-	private double parA[] = new	double[indiv_dim + 1];
-	private double parB[] = new	double[indiv_dim + 1];
+	private int parA;
+	private int parB;
 
-	private double[] offspringA = new double[indiv_dim + 1];
-	private double[] offspringB = new double[indiv_dim + 1];
+	private Individual offspringA;
+	private Individual offspringB;
 
 	public static void main(String[] args) {
 		System.out.println("Test");
@@ -86,7 +95,7 @@ public class player46 implements ContestSubmission
 		for (int battle = 0; battle < 2*tournament_size; battle++) {
 			do {
 				already_in = false;
-				fighters[battle] = rnd_.nextInt(pop.length - 1);
+				fighters[battle] = rnd_.nextInt(pops.size() - 1);
 				// making sure they are in the set only once
 				for (int par_in_set_a = 0; par_in_set_a < tournament_size; par_in_set_a++) {
 					if (fighters[par_in_set_a] == fighters[battle] && par_in_set_a!=battle) {
@@ -97,21 +106,24 @@ public class player46 implements ContestSubmission
 		}
 
 		if (for_parent_not_survival){
-			// set first fighters as candidates
-			parA = Arrays.copyOf(pop[fighters[0]], pop[fighters[0]].length);
-			parB = Arrays.copyOf(pop[fighters[tournament_size]], pop[fighters[tournament_size]].length);
+			// set tournament
+			int best_fighterA = fighters[0];
+			int best_fighterB = fighters[tournament_size];
 
 			// set tournament
 			for (int battle = 1; battle < tournament_size; battle++) {
 
-				if (pop[fighters[battle]][fitness_index] > parA[fitness_index]) {
-					parA = Arrays.copyOf(pop[fighters[battle]], pop[fighters[battle]].length);
+				if (pops.get(fighters[battle]).fitness > pops.get(best_fighterA).fitness) {
+					best_fighterA = fighters[battle];
 				}
 
-				if (pop[fighters[battle + tournament_size]][fitness_index] > parB[fitness_index]) {
-					parB = Arrays.copyOf(pop[fighters[battle + tournament_size]], pop[fighters[battle + tournament_size]].length);
+				if (pops.get(fighters[battle+tournament_size]).fitness > pops.get(best_fighterB).fitness) {
+					best_fighterB = fighters[battle + tournament_size];
 				}
 			}
+			parA=best_fighterA;
+			parB=best_fighterB;
+
 		}
 		else {
 			// set tournament
@@ -120,66 +132,134 @@ public class player46 implements ContestSubmission
 
 			for (int battle = 1; battle < tournament_size; battle++) {
 
-				if (pop[fighters[battle]][fitness_index] < pop[worst_fighterA][fitness_index]) {
+				if (pops.get(fighters[battle]).fitness < pops.get(worst_fighterA).fitness) {
 					worst_fighterA=fighters[battle];
 				}
 
-				if (pop[fighters[battle + tournament_size]][fitness_index] < pop[worst_fighterB][fitness_index]) {
+				if (pops.get(fighters[battle+tournament_size]).fitness < pops.get(worst_fighterB).fitness) {
 					worst_fighterB=fighters[battle+tournament_size];
 				}
 			}
 
-			if(rnd_.nextDouble() <= weaker_offspring_survival_prop | pop[worst_fighterA][fitness_index]<=offspringA[fitness_index]) {
-				pop[worst_fighterA] = Arrays.copyOf(offspringA, offspringA.length);
+			if(rnd_.nextDouble() <= weaker_offspring_survival_prop | pops.get(worst_fighterA).fitness<=offspringA.fitness) {
+				pops.set(worst_fighterA, offspringA);
 			}
 
-			if(rnd_.nextDouble() <= weaker_offspring_survival_prop | pop[worst_fighterB][fitness_index]<=offspringB[fitness_index]) {
-				pop[worst_fighterB] = Arrays.copyOf(offspringB, offspringB.length);
+			if(rnd_.nextDouble() <= weaker_offspring_survival_prop | pops.get(worst_fighterB).fitness<=offspringB.fitness) {
+				pops.set(worst_fighterB, offspringB);
 			}
+		}
+	}
+
+	private void blend_crossover(){
+		if(p_crossover >= rnd_.nextDouble()) {
+
+			offspringA = new Individual(indiv_dim, rnd_);
+			offspringB = new Individual(indiv_dim, rnd_);
+
+			// get random crossover point
+			double u = rnd_.nextDouble();
+
+			for(int gene=0; gene<offspringA.genotype.length; gene++) {
+				double gamma = (1-2*alpha)*u-alpha;
+				offspringA.genotype[gene] = (1-gamma)*pops.get(parA).genotype[gene]+gamma*pops.get(parB).genotype[gene];
+				offspringB.genotype[gene] = (1-gamma)*pops.get(parB).genotype[gene]+gamma*pops.get(parA).genotype[gene];
+
+				offspringA.mutation_step_size[gene] = (1-gamma)*pops.get(parA).mutation_step_size[gene]+gamma*pops.get(parB).mutation_step_size[gene];
+				offspringB.mutation_step_size[gene] = (1-gamma)*pops.get(parB).mutation_step_size[gene]+gamma*pops.get(parA).mutation_step_size[gene];
+			}
+		}
+		else {
+			offspringA = pops.get(parA);
+			offspringB = pops.get(parB);
+		}
+	}
+
+	private void avergae_crossover(){
+		if(p_crossover >= rnd_.nextDouble()) {
+
+			offspringA = new Individual(indiv_dim, rnd_);
+			offspringB = new Individual(indiv_dim, rnd_);
+
+			for(int gene=0; gene<offspringA.genotype.length; gene++) {
+				offspringA.genotype[gene] = (1-alpha)*pops.get(parA).genotype[gene]+alpha*pops.get(parB).genotype[gene];
+				offspringB.genotype[gene] = (1-alpha)*pops.get(parB).genotype[gene]+alpha*pops.get(parA).genotype[gene];
+
+				offspringA.mutation_step_size[gene] = (1-alpha)*pops.get(parA).mutation_step_size[gene]+alpha*pops.get(parB).mutation_step_size[gene];
+				offspringB.mutation_step_size[gene] = (1-alpha)*pops.get(parB).mutation_step_size[gene]+alpha*pops.get(parA).mutation_step_size[gene];
+			}
+		}
+		else {
+			offspringA = pops.get(parA);
+			offspringB = pops.get(parB);
 		}
 	}
 
 	private void one_point_crossover(){
 
 		if(p_crossover >= rnd_.nextDouble()) {
+			offspringA = new Individual(indiv_dim, rnd_);
+			offspringB = new Individual(indiv_dim, rnd_);
+
 			// get random crossover point
-			int co_indx = rnd_.nextInt(indiv_dim - 1) + 1;
+			int co_index = rnd_.nextInt(indiv_dim - 1) + 1;
 
 			// cut the genes at crossover point
-			double[] parA_genes1 = Arrays.copyOfRange(parA, 0, co_indx);
-			double[] parA_genes2 = Arrays.copyOfRange(parA, co_indx, parA.length - 1);
-			double[] parB_genes1 = Arrays.copyOfRange(parB, 0, co_indx);
-			double[] parB_genes2 = Arrays.copyOfRange(parB, co_indx, parB.length - 1);
+			double[] parA_genes1 = Arrays.copyOfRange(pops.get(parA).genotype, 0, co_index);
+			double[] parA_genes2 = Arrays.copyOfRange(pops.get(parA).genotype, co_index, pops.get(parA).genotype.length);
+			double[] parB_genes1 = Arrays.copyOfRange(pops.get(parB).genotype, 0, co_index);
+			double[] parB_genes2 = Arrays.copyOfRange(pops.get(parB).genotype, co_index, pops.get(parB).genotype.length);
+
+			// cut the mutation step sizes at crossover point
+			double[] parA_sigma1 = Arrays.copyOfRange(pops.get(parA).mutation_step_size, 0, co_index);
+			double[] parA_sigma2 = Arrays.copyOfRange(pops.get(parA).mutation_step_size, co_index, pops.get(parA).mutation_step_size.length);
+			double[] parB_sigma1 = Arrays.copyOfRange(pops.get(parB).mutation_step_size, 0, co_index);
+			double[] parB_sigma2 = Arrays.copyOfRange(pops.get(parB).mutation_step_size, co_index, pops.get(parB).mutation_step_size.length);
+
 
 			// add the pieces to create new offspring
-			System.arraycopy(parA_genes1, 0, offspringA, 0, parA_genes1.length);
-			System.arraycopy(parB_genes2, 0, offspringA, parA_genes1.length, parB_genes2.length);
+			System.arraycopy(parA_genes1, 0, offspringA.genotype, 0, parA_genes1.length);
+			System.arraycopy(parB_genes2, 0, offspringA.genotype, parA_genes1.length, parB_genes2.length);
+			System.arraycopy(parA_sigma1, 0, offspringA.mutation_step_size, 0, parA_sigma1.length);
+			System.arraycopy(parB_sigma2, 0, offspringA.mutation_step_size, parA_sigma1.length, parB_sigma2.length);
 
-			System.arraycopy(parB_genes1, 0, offspringB, 0, parB_genes1.length);
-			System.arraycopy(parA_genes2, 0, offspringB, parB_genes1.length, parA_genes2.length);
+
+			System.arraycopy(parB_genes1, 0, offspringB.genotype, 0, parB_genes1.length);
+			System.arraycopy(parA_genes2, 0, offspringB.genotype, parB_genes1.length, parA_genes2.length);
+			System.arraycopy(parB_sigma1, 0, offspringB.mutation_step_size, 0, parB_sigma1.length);
+			System.arraycopy(parA_sigma2, 0, offspringB.mutation_step_size, parB_sigma1.length, parA_sigma2.length);
+
 		}
 		else {
-			System.arraycopy(parA, 0, offspringA, 0, parA.length-1);
-			System.arraycopy(parB, 0, offspringB, 0, parB.length-1);
+			offspringA = pops.get(parA);
+			offspringB = pops.get(parB);
 		}
 	}
 
 	private void nonuniform_mutation(){
 		// create delta vectors
-		double[] delta_A = new double[offspringA.length - 1];
-		double[] delta_B = new double[offspringB.length - 1];
 
-		for (int i=0; i < offspringA.length-1; i++){
+		double[] delta_A = new double[offspringA.mutation_step_size.length];
+		double[] delta_B = new double[offspringB.mutation_step_size.length];
+
+		double const_gaussian_for_A = rnd_.nextGaussian();
+		double const_gaussian_for_B = rnd_.nextGaussian();
+
+		for (int i=0; i < offspringA.genotype.length; i++){
 			if(p_mutation >= rnd_.nextDouble()) {
+				// calculate new sigma
+				offspringA.mutation_step_size[i] *= Math.exp(mutation_tau_apos*const_gaussian_for_A + mutation_tau*rnd_.nextGaussian());
 				// get delta for A and add to offspring
-				delta_A[i] = rnd_.nextGaussian()*mutation_step_size;
-				sum_in_range(delta_A, i, offspringA);
+				delta_A[i] = offspringA.mutation_step_size[i]*rnd_.nextGaussian();
+				sum_in_range(delta_A, i, offspringA.genotype);
 			}
 
 			if(p_mutation >= rnd_.nextDouble()) {
+				// calculate new sigma
+				offspringB.mutation_step_size[i] *= Math.exp(mutation_tau_apos*const_gaussian_for_B + mutation_tau*rnd_.nextGaussian());
 				// get delta for B and add to offspring
-				delta_B[i] = rnd_.nextGaussian()*mutation_step_size;
-				sum_in_range(delta_B, i, offspringB);
+				delta_B[i] = offspringB.mutation_step_size[i]*rnd_.nextGaussian();
+				sum_in_range(delta_B, i, offspringB.genotype);
 			}
 		}
 	}
@@ -199,30 +279,23 @@ public class player46 implements ContestSubmission
 		}
 	}
 
-	private void ranking_survivor_selection(){
-		// sort pop from highest to lowest fittest
-		Arrays.sort(pop, Collections.reverseOrder(Comparator.comparingDouble(a -> a[fitness_index])));
-		// put offspring A & B into sorted population
-		pop[pop.length-1] = Arrays.copyOf(offspringA, offspringA.length);
-		pop[pop.length-2] = Arrays.copyOf(offspringB, offspringB.length);
+	public static double round(double val, int places){
+		if(places < 0) throw new IllegalArgumentException();
+
+		BigDecimal bigDecimal = new BigDecimal(val);
+		bigDecimal = bigDecimal.setScale(places, RoundingMode.HALF_UP);
+		return bigDecimal.doubleValue();
 	}
-
-
 
 	public void run()
 	{
 		// Run your algorithm here
-        int evals = 0;
 
         // init population uniformly randomly within [-5,5]
 		for(int individual = 0; individual < pop_size; individual ++){
-			for(int gene = 0; gene < indiv_dim; gene++){
-				// initialize
-				pop[individual][gene] = min_max[0] + rnd_.nextFloat() * (min_max[1] - min_max[0]);
-			}
+			pops.add(new Individual(mutation_step_size_start,indiv_dim,rnd_, min_max));
 			// calculate fitness
-			double[] genotype = Arrays.copyOfRange(pop[individual], 0, pop[individual].length-1);
-			pop[individual][fitness_index] = (double) evaluation_.evaluate(genotype);
+			pops.get(individual).fitness = (double) evaluation_.evaluate(pops.get(individual).genotype);
 			evals++;
 		}
 
@@ -231,21 +304,25 @@ public class player46 implements ContestSubmission
 			// select parent through method x
 			tournament_selection(true);
 
-			if(!Arrays.equals(parA,parB)) {
+			if(!Arrays.equals(pops.get(parA).genotype,pops.get(parB).genotype)) {
 				// create offspring from selected parents by method x
-				one_point_crossover();
+				avergae_crossover();
 
 				// mutate offspring
 				nonuniform_mutation();
 
+				// round to decimals
+				for(int i=0; i< offspringA.genotype.length; i++){
+					offspringA.genotype[i] = round(offspringA.genotype[i],3);
+					offspringB.genotype[i] = round(offspringB.genotype[i],3);
+				}
+
 				// calculate fitness of offspring A
-				double[] genotypeA = Arrays.copyOfRange(offspringA, 0, offspringA.length - 1);
-				offspringA[fitness_index] = (double) evaluation_.evaluate(genotypeA);
+				offspringA.fitness = (double) evaluation_.evaluate(offspringA.genotype);
 				evals++;
 
 				// calculate fitness of offspring B
-				double[] genotypeB = Arrays.copyOfRange(offspringB, 0, offspringB.length - 1);
-				offspringB[fitness_index] = (double) evaluation_.evaluate(genotypeB);
+				offspringB.fitness = (double) evaluation_.evaluate(offspringB.genotype);
 				evals++;
 
 				// select individuals to be replaced by method x
@@ -255,4 +332,3 @@ public class player46 implements ContestSubmission
 	}
 
 }
-
