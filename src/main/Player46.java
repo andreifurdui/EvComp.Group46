@@ -64,31 +64,36 @@ public class Player46 implements ContestSubmission
     
 	public void run()
 	{
+		Logger islandLog = new Logger("IslandEvolution" + sdf.format(new Timestamp(System.currentTimeMillis())));
+
 		Population population = Population
 				.InitPopulationWithFitness_Rand(evaluation_, population_size)
 				.WithRandomIslandization(island_count);
 
-		Logger islandLog = new Logger("Island Evolution" + sdf.format(new Timestamp(System.currentTimeMillis())));
 		islandLog.AddRow(population.getLogHeader());
+		islandLog.AddRows(population.GetGenerationLog());
 
 		int evals = 100;
 
-        while(evals + 100*epoch_length <evaluations_limit_)
+		LOOP:
+        while(true)
         {
             int epochs = 0;
             while(epochs < epoch_length)
 			{
 				for (int island = 0; island < island_count; island++) {
-					population.Islands.get(island).Evolve(evaluation_);
+					try{
+						population.Islands.get(island).Evolve(evaluation_);
+					}catch(Exception e){
+						islandLog.WriteLog();
+						break LOOP;
+					}
 				}
 				islandLog.AddRows(population.GetGenerationLog());
-				evals += 100;
 				epochs++;
 			}
 
-			population = population.Migrate(island_count);
+			population.Migrate(island_count);
 		}
-
-		islandLog.WriteLog();
 	}
 }

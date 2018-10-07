@@ -28,7 +28,6 @@ public class Island {
         header.addAll(Individual.getLogHeader());
         header.add("IslandIndex");
         header.add("Generation");
-        header.add("IslandIndex");
         header.addAll(main.IslandParameters.getHeaderLog());
 
         return header;

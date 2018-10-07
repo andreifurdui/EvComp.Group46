@@ -24,6 +24,8 @@ public class Population {
     public Population(List<Individual> population, List<Individual>[] islands, int islandCount)
     {
         this.Population = population;
+
+        this.Epoch = 1;
         this.Islands = new ArrayList<>();
         for (int i = 0; i < islandCount; i++) {
             this.Islands.add(new Island(i, islands[i], IslandParameters.GetIslandParameters(islands[i].size(), i)));
