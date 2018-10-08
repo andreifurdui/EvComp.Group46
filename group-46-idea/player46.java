@@ -22,15 +22,24 @@ public class player46 implements ContestSubmission
     private int fitness_index = indiv_dim;
     private double p_crossover = 1;
     private double p_mutation = 1;
-    private double mutation_step_size_start = 2;
+    private double mutation_step_size_start = 1;
     private double mutation_tau_apos = 1/Math.sqrt(2*indiv_dim);
     private double mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim));
 
-    private double alpha = 0.8;
+    private double alpha = 0.5;
 
     private int tournament_size_parent_selection = 2;
 	private int tournament_size_survival_selection = 2;
 	private double weaker_offspring_survival_prop = 0.3;
+
+	private int local_search_budget = 2;
+	private double p_mutation_ls = 1;
+
+
+	private double eval_search_split = 0.9;
+	private int ls_in_best = 3;
+	private double p_mutation_ls_end = 0.5;
+	private double mutation_step_size_ls_end = 0.01;
 
 	private ArrayList<Individual> pops = new ArrayList<>();
 
@@ -264,6 +273,97 @@ public class player46 implements ContestSubmission
 		}
 	}
 
+	private void local_search(){
+
+		double[] delta_A = new double[offspringA.mutation_step_size.length];
+		double[] delta_B = new double[offspringB.mutation_step_size.length];
+
+		boolean local_search_A_done = false;
+		int budget_A = 0;
+		int budget_B = 0;
+		boolean local_search_B_done = false;
+
+		Individual offspringA_ls = new Individual(indiv_dim, rnd_);
+		Individual offspringB_ls = new Individual(indiv_dim, rnd_);
+
+		//clone mutationstepsizes offspring
+		System.arraycopy(offspringA.mutation_step_size, 0, offspringA_ls.mutation_step_size, 0, offspringA.mutation_step_size.length);
+		System.arraycopy(offspringB.mutation_step_size, 0, offspringB_ls.mutation_step_size, 0, offspringB.mutation_step_size.length);
+
+		while(!local_search_A_done || !local_search_B_done) {
+
+			if (budget_A<local_search_budget) {
+				//local search for A
+				local_search_A_done = greedy_ascent_local_search(delta_A, local_search_A_done, offspringA_ls, offspringA);
+				budget_A++;
+			}
+			else {
+				local_search_A_done = true;
+			}
+
+			if(budget_B<local_search_budget) {
+				//local search for B
+				local_search_B_done = greedy_ascent_local_search(delta_B, local_search_B_done, offspringB_ls, offspringB);
+				budget_B++;
+			}
+			else {
+				local_search_B_done=true;
+			}
+
+		}
+	}
+
+	private boolean greedy_ascent_local_search(double[] delta, boolean local_search_done, Individual offspring_ls, Individual offspring) {
+		if (!local_search_done) {
+			System.arraycopy(offspring.genotype, 0, offspring_ls.genotype, 0, offspring.genotype.length);
+			for (int i = 0; i < offspring_ls.genotype.length; i++) {
+				if (p_mutation_ls >= rnd_.nextDouble()) {
+					// get delta and add to offspring
+					delta[i] = offspring_ls.mutation_step_size[i] * rnd_.nextGaussian();
+					sum_in_range(delta, i, offspring_ls.genotype);
+				}
+			}
+			if (evals<evaluations_limit_) {
+				// calculate fitness of offspring
+				offspring_ls.fitness = (double) evaluation_.evaluate(offspring_ls.genotype);
+				evals++;
+			}
+			else {
+				local_search_done=true;
+			}
+
+			if (offspring_ls.fitness > offspring.fitness) {
+				local_search_done = true;
+				System.arraycopy(offspring_ls.genotype, 0, offspring.genotype, 0, offspring_ls.genotype.length);
+			}
+		}
+		return local_search_done;
+	}
+
+	private void greedy_ascent_local_end_search(int individual_index) {
+
+		double[] delta = new double[offspringA.mutation_step_size.length];
+
+		Individual offspring_ls = new Individual(indiv_dim, rnd_);
+		System.arraycopy(pops.get(individual_index).genotype, 0, offspring_ls.genotype, 0, pops.get(individual_index).genotype.length);
+
+		for (int i = 0; i < offspring_ls.genotype.length; i++) {
+			if (p_mutation_ls_end >= rnd_.nextDouble()) {
+				// get delta and add to offspring
+				delta[i] = mutation_step_size_ls_end * rnd_.nextGaussian();
+				sum_in_range(delta, i, offspring_ls.genotype);
+			}
+		}
+
+		// calculate fitness of offspring
+		offspring_ls.fitness = (double) evaluation_.evaluate(offspring_ls.genotype);
+		evals++;
+
+		if (offspring_ls.fitness > pops.get(individual_index).fitness) {
+			System.arraycopy(offspring_ls.genotype, 0, pops.get(individual_index).genotype, 0, offspring_ls.genotype.length);
+		}
+	}
+
 	private void sum_in_range(@NotNull double[] delta, int i, @NotNull double[] offspring) {
 		// if in range add
 		if (min_max[0] < offspring[i] + delta[i] &&  offspring[i] + delta[i] < min_max[1]){
@@ -279,7 +379,7 @@ public class player46 implements ContestSubmission
 		}
 	}
 
-	public static double round(double val, int places){
+	private static double round(double val, int places){
 		if(places < 0) throw new IllegalArgumentException();
 
 		BigDecimal bigDecimal = new BigDecimal(val);
@@ -299,7 +399,9 @@ public class player46 implements ContestSubmission
 			evals++;
 		}
 
-        while(evals<evaluations_limit_){
+		Double evolution_evals = eval_search_split*evaluations_limit_;
+
+        while(evals< evolution_evals.intValue()){
 
 			// select parent through method x
 			tournament_selection(true);
@@ -325,10 +427,22 @@ public class player46 implements ContestSubmission
 				offspringB.fitness = (double) evaluation_.evaluate(offspringB.genotype);
 				evals++;
 
+				// apply local search
+				local_search();
+
 				// select individuals to be replaced by method x
 				tournament_selection(false);
 			}
         }
+
+		pops.sort(Collections.reverseOrder());
+
+        int individual_index;
+
+        while (evals<evaluations_limit_){
+        	individual_index=rnd_.nextInt(ls_in_best-1);
+			greedy_ascent_local_end_search(individual_index);
+		}
 	}
 
 }

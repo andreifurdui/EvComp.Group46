@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e027099b-b1e6-433d-be43-37829d38e0c4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../Group46.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Individual.java" beforeDir="false" afterPath="$PROJECT_DIR$/Individual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/group46-module/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/group46-module/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player46.java" beforeDir="false" afterPath="$PROJECT_DIR$/player46.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -76,24 +73,26 @@
     <session id="-307942339">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="8" />
+          <entry key="project.closed" value="10" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.5" value="3" />
           <entry key="project.open.time.6" value="5" />
-          <entry key="project.opened" value="10" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="8456" />
+          <entry key="dummy" value="58" />
+          <entry key="java" value="9806" />
           <entry key="txt" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="8456" />
-          <entry key="PLAIN_TEXT" value="40" />
+          <entry key="JAVA" value="9806" />
+          <entry key="PLAIN_TEXT" value="98" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -124,14 +123,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player46.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="188" column="109" selection-start-line="188" selection-start-column="109" selection-end-line="188" selection-end-column="109" />
+            <state relative-caret-position="345">
+              <caret line="41" column="51" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1084#1085#0" expanded="true" />
-                <element signature="e#1117#1118#0" expanded="true" />
-                <element signature="e#1140#1141#0" expanded="true" />
-                <element signature="e#1166#1167#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -140,12 +135,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Individual.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="32" column="51" selection-start-line="32" selection-start-column="51" selection-end-line="32" selection-end-column="51" />
+            <state relative-caret-position="668">
+              <caret line="51" column="5" lean-forward="true" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#545#546#0" expanded="true" />
-                <element signature="e#606#607#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -188,10 +181,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1920" />
-    <option name="y" value="-2" />
+    <option name="y" value="25" />
     <option name="width" value="2560" />
-    <option name="height" value="1442" />
+    <option name="height" value="1415" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -199,8 +191,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -222,6 +212,8 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -230,7 +222,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538929801462" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538991805113" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="$USER_HOME$/.nvm/versions/node/v8.2.1/bin/node" />
@@ -262,7 +254,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JAR Application.Schaffers">
+  <component name="RunManager" selected="JAR Application.BentCigar">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -766,7 +758,8 @@
       <workItem from="1537368940316" duration="6617000" />
       <workItem from="1537433812656" duration="2668000" />
       <workItem from="1538811043916" duration="14093000" />
-      <workItem from="1538897574780" duration="19508000" />
+      <workItem from="1538897574780" duration="20548000" />
+      <workItem from="1538982631953" duration="7409000" />
     </task>
     <task id="LOCAL-00001" summary="First Draft; Crossover has to be updated">
       <created>1537384001272</created>
@@ -779,13 +772,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77753000" />
+    <option name="totallyTimeSpent" value="86202000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1987" y="25" width="2493" height="1415" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" order="0" visible="true" weight="0.14834492" />
+      <window_info id="Project" order="0" visible="true" weight="0.20309906" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -794,7 +787,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936507" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32539684" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.16666667" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -887,13 +880,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/player46.java</url>
-          <line>199</line>
-          <properties />
-          <option name="timeStamp" value="127" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/player46.java</url>
-          <line>175</line>
+          <line>184</line>
           <properties />
           <option name="timeStamp" value="132" />
         </line-breakpoint>
@@ -955,13 +942,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/individual.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/individual.java" />
     <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/jdk/internal/loader/BuiltinClassLoader.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
@@ -969,9 +950,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SphereEvaluation.class">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/SphereEvaluation.class" />
     <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/util/Random.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
@@ -979,31 +958,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Test.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Test.java" />
     <entry file="file://$PROJECT_DIR$/Individual.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="51" selection-start-line="32" selection-start-column="51" selection-end-line="32" selection-end-column="51" />
+        <state relative-caret-position="668">
+          <caret line="51" column="5" lean-forward="true" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#545#546#0" expanded="true" />
-            <element signature="e#606#607#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/player46.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="188" column="109" selection-start-line="188" selection-start-column="109" selection-end-line="188" selection-end-column="109" />
+        <state relative-caret-position="345">
+          <caret line="41" column="51" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1084#1085#0" expanded="true" />
-            <element signature="e#1117#1118#0" expanded="true" />
-            <element signature="e#1140#1141#0" expanded="true" />
-            <element signature="e#1166#1167#0" expanded="true" />
           </folding>
         </state>
       </provider>
