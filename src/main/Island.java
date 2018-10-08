@@ -21,18 +21,6 @@ public class Island {
         this.IslandParameters = islandParameters;
     }
 
-    public static List<String> getLogHeader()
-    {
-        List<String> header = new ArrayList<>();
-
-        header.addAll(Individual.getLogHeader());
-        header.add("IslandIndex");
-        header.add("Generation");
-        header.addAll(main.IslandParameters.getHeaderLog());
-
-        return header;
-    }
-
     public void Evolve(ContestEvaluation eval)
     {
         List<Individual> children = MakeChildren(eval);
@@ -55,18 +43,9 @@ public class Island {
 
     private List<Individual> MakeChildren(ContestEvaluation eval)
     {
-        List<Individual> children = new ArrayList<>();
-        while(children.size() < (IslandPopulation.size() * .8))
+        List<Individual> allChildren = new ArrayList<>();
+        while(allChildren.size() < (IslandPopulation.size()))
         {
-            double mutationDiceRoll = rand.nextDouble();
-
-            if(mutationDiceRoll < IslandParameters.MutationChance)
-            {
-                Individual singleParent = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize, 1).get(0);
-                Individual child = singleParent.Mutate(IslandParameters.MutationStepSizeMultiplier);
-                children.add(child);
-                continue;
-            }
 
             Individual mom = Operators.TournamentSelect(IslandPopulation, IslandParameters.TournamentSize,1).get(0);
             Individual dad;
@@ -75,19 +54,26 @@ public class Island {
             } while(mom.equals(dad));
 
             double crossoverDiceRoll = rand.nextDouble();
+            List<Individual> newChildren = new ArrayList<>();
+
             if(crossoverDiceRoll < IslandParameters.CrossoverMethodChance)
             { //do whole arithmetic xover
-                Individual child = Operators.AritmeticalXover(mom, dad);
-                children.add(child);
+                newChildren = Operators.AritmeticalXover(mom, dad);
             }
-            else
-            { //do blend crossover
-                Individual child = Operators.BlendCrossover(mom, dad);
-                children.add(child);
+
+            for (Individual ind: newChildren) {
+                double mutationDiceRoll = rand.nextDouble();
+
+                if(mutationDiceRoll < IslandParameters.MutationChance)
+                {
+                    ind = ind.Mutate(IslandParameters);
+                }
             }
+
+            allChildren.addAll(newChildren);
         }
 
-        return children;
+        return allChildren;
     }
 
     public List<String[]> Log(String epoch)
@@ -105,6 +91,18 @@ public class Island {
         }
 
         return log;
+    }
+
+    public static List<String> getLogHeader()
+    {
+        List<String> header = new ArrayList<>();
+
+        header.addAll(Individual.getLogHeader());
+        header.add("IslandIndex");
+        header.add("Generation");
+        header.addAll(main.IslandParameters.getHeaderLog());
+
+        return header;
     }
 
     public List<String> GetIslandMeta()

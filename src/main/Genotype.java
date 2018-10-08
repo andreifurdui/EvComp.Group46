@@ -9,9 +9,11 @@ public class Genotype {
     public static final int GenotypeLength = 10;
 
     public double[] Values;
+    public double[] MutationStepSize;
 
-    public Genotype(double[] values){
+    public Genotype(double[] values, double[] mutationSizes){
         this.Values = Bounded(values);
+        this.MutationStepSize = mutationSizes;
     }
 
     public static List<String> getLogHeader()
@@ -43,14 +45,16 @@ public class Genotype {
                         value;
     }
 
-    public static Genotype Create_Rand(Random rand) {
+    public static Genotype Create(Random rand) {
         double[] values = new double[GenotypeLength];
+        double[] stepSize = new double[GenotypeLength];
 
         for (int i = 0; i < GenotypeLength; i++) {
             values[i] = (rand.nextDouble() - 0.5) * 10;
+            stepSize[i] = rand.nextDouble() + 0.5;
         }
 
-        return new Genotype(values);
+        return new Genotype(values, stepSize);
     }
 
     public List<String> Log()
@@ -62,5 +66,21 @@ public class Genotype {
         }
 
         return log;
+    }
+
+    public Genotype Mutate(IslandParameters parameters, Random rand)
+    {
+        double[] mutatedGenes = new double[10];
+        double[] mutationStepSizes = new double[10];
+
+        double gaussianDiceRoll = rand.nextGaussian();
+
+        for (int i = 0; i < 10; i++) {
+            mutationStepSizes[i] = this.MutationStepSize[i] * Math.exp(parameters.Mutation_Tau_Prime * gaussianDiceRoll + parameters.Mutation_Tau * rand.nextGaussian());
+
+            mutatedGenes[i] = this.Values[i] + mutationStepSizes[i] * rand.nextGaussian();
+        }
+
+        return new Genotype(mutatedGenes, mutationStepSizes);
     }
 }

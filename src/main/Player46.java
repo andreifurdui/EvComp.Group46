@@ -36,7 +36,7 @@ public class Player46 implements ContestSubmission
 	public void setSeed(long seed)
 	{
 		// Set seed of algortihms random process
-		rnd_.setSeed(seed);
+		//rnd_.setSeed(seed);
 	}
 
 	public void setEvaluation(ContestEvaluation evaluation)
@@ -67,18 +67,16 @@ public class Player46 implements ContestSubmission
 		Logger islandLog = new Logger("IslandEvolution" + sdf.format(new Timestamp(System.currentTimeMillis())));
 
 		Population population = Population
-				.InitPopulationWithFitness_Rand(evaluation_, population_size)
-				.WithRandomIslandization(island_count);
+				.Create(population_size, island_count, evaluation_, rnd_);
 
 		islandLog.AddRow(population.getLogHeader());
 		islandLog.AddRows(population.GetGenerationLog());
 
-		int evals = 100;
+		int epochs = 1;
 
 		LOOP:
         while(true)
         {
-            int epochs = 0;
             while(epochs < epoch_length)
 			{
 				for (int island = 0; island < island_count; island++) {
@@ -93,7 +91,8 @@ public class Player46 implements ContestSubmission
 				epochs++;
 			}
 
-			population.Migrate(island_count);
+			MigrationPolicies.Migrate(population, island_count);
+			epochs = 0;
 		}
 	}
 }

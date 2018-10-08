@@ -30,35 +30,26 @@ public class Operators {
         return champions;
     }
 
-    public static Individual AritmeticalXover(Individual mom, Individual dad)
+    public static List<Individual> AritmeticalXover(Individual mom, Individual dad)
     {
-        double[] genotype = new double[10];
+        double[] genotype1 = new double[10];
+        double[] genotype2 = new double[10];
+        double[] mutationStepSizes1 = new double[10];
+        double[] mutationStepSizes2 = new double[10];
         double bias = rand.nextDouble();
 
         for (int i = 0; i < 10; i++) {
-            genotype[i] = bias * mom.Genes.Values[i] + (1 - bias) * dad.Genes.Values[i];
-        }
-        double childMutationStep = bias * mom.MutationStepSize + (1 - bias) * dad.MutationStepSize;
-
-        return new Individual(genotype, childMutationStep);
-    }
-
-    public static Individual BlendCrossover(Individual mom, Individual dad)
-    {
-        double[] genotype = new double[10];
-        for (int i = 0; i < 10; i++) {
-            double distance = Math.abs(mom.Genes.Values[i] - dad.Genes.Values[i]);
-            double directionDiceRoll = rand.nextDouble() - .5;
-            genotype[i] = directionDiceRoll < 0 ?
-                    mom.Genes.Values[i] - distance * .5 :
-                    mom.Genes.Values[i] + distance * .5;
+            genotype1[i] = bias * mom.Genes.Values[i] + (1 - bias) * dad.Genes.Values[i];
+            genotype2[i] = (1-bias) * mom.Genes.Values[i] + bias * dad.Genes.Values[i];
+            mutationStepSizes1[i] = bias * mom.Genes.MutationStepSize[i] + (1 - bias) * dad.Genes.MutationStepSize[i];
+            mutationStepSizes2[i] = (1-bias) * mom.Genes.MutationStepSize[i] + bias * dad.Genes.MutationStepSize[i];
         }
 
-        double mutationStepSizeDifference = Math.abs(mom.MutationStepSize - dad.MutationStepSize);
-        double childMutationStep =  rand.nextDouble() - .5 < 0 ?
-                mom.MutationStepSize - mutationStepSizeDifference * .5 :
-                mom.MutationStepSize + mutationStepSizeDifference * .5;
+        List<Individual> children = new ArrayList<>();
+        children.add(new Individual(new Genotype(genotype1, mutationStepSizes1)));
+        children.add(new Individual(new Genotype(genotype2, mutationStepSizes2)));
 
-        return new Individual(genotype, childMutationStep);
+        return children;
     }
+
 }

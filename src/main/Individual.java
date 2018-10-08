@@ -7,32 +7,32 @@ import java.util.*;
 public class Individual {
     public Genotype Genes;
     public double Fitness;
-    public double MutationStepSize;
 
     public static Comparator<Individual> Comparator = new SortByFitness();
-    private static Random rand = new Random();
+    private static Random rand;
     private static ContestEvaluation eval = null;
 
-    public Individual(Genotype genotype, double fitness){
+    public Individual(Genotype genotype){
         this.Genes = genotype;
-        this.Fitness = fitness;
-        this.MutationStepSize = rand.nextGaussian() - .5;
+        this.Fitness = (double)eval.evaluate(genotype.Values);
     }
 
-    public Individual(double[] geneValues, double mutationStepSize)
-    {
-        this.Genes = new Genotype(geneValues);
-        this.Fitness = (double)eval.evaluate(Genes.Values);
-        this.MutationStepSize = mutationStepSize;
-    }
-
-    public static Individual Create_Rand(ContestEvaluation evaluation_){
+    public static Individual Create(ContestEvaluation evaluation_, Random rnd_){
         if(eval == null)
             eval = evaluation_;
+        if(rand == null)
+            rand = rnd_;
 
-        Genotype genotype = Genotype.Create_Rand(rand);
+        Genotype genotype = Genotype.Create(rnd_);
 
-        return new Individual(genotype, (double)evaluation_.evaluate(genotype.Values));
+        return new Individual(genotype);
+    }
+
+    public Individual Mutate(IslandParameters parameters)
+    {
+        Genotype mutatedGenotype = this.Genes.Mutate(parameters, rand);
+
+        return new Individual(mutatedGenotype);
     }
 
     public static List<String> getLogHeader()
@@ -46,21 +46,11 @@ public class Individual {
         return header;
     }
 
-    public Individual Mutate(double mutationStepSizeMultiplier) {
-        double[] mutatedGenes = new double[10];
-        for (int i = 0; i < 10; i++) {
-            mutatedGenes[i] = this.Genes.Values[i] + rand.nextGaussian() * mutationStepSizeMultiplier + MutationStepSize;
-        }
-
-        return new Individual(mutatedGenes, this.MutationStepSize);
-    }
-
     public List<String> Log()
     {
         List<String> log = new ArrayList<>(Genes.Log());
 
         log.add(Double.toString(Fitness));
-        log.add(Double.toString(MutationStepSize));
 
         return log;
     }
