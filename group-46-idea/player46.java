@@ -391,6 +391,7 @@ public class player46 implements ContestSubmission
 	{
 		// Run your algorithm here
 
+
         // init population uniformly randomly within [-5,5]
 		for(int individual = 0; individual < pop_size; individual ++){
 			pops.add(new Individual(mutation_step_size_start,indiv_dim,rnd_, min_max));
