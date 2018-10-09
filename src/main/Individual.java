@@ -10,27 +10,32 @@ public class Individual {
 
     public static Comparator<Individual> Comparator = new SortByFitness();
     private static Random rand;
-    private static ContestEvaluation eval = null;
+    private static ContestEvaluation eval;
 
     public Individual(Genotype genotype){
         this.Genes = genotype;
         this.Fitness = (double)eval.evaluate(genotype.Values);
     }
 
-    public static Individual Create(ContestEvaluation evaluation_, Random rnd_){
-        if(eval == null)
-            eval = evaluation_;
-        if(rand == null)
-            rand = rnd_;
-
-        Genotype genotype = Genotype.Create(rnd_);
+    public static Individual CreateRandom(){
+        Genotype genotype = Genotype.CreateRandom();
 
         return new Individual(genotype);
     }
 
+    public static void SetRandom(Random rnd_)
+    {
+        rand = rnd_;
+    }
+
+    public static void SetEvaluation(ContestEvaluation evaluation_)
+    {
+        eval = evaluation_;
+    }
+
     public Individual Mutate(IslandParameters parameters)
     {
-        Genotype mutatedGenotype = this.Genes.Mutate(parameters, rand);
+        Genotype mutatedGenotype = this.Genes.Mutate(parameters);
 
         return new Individual(mutatedGenotype);
     }

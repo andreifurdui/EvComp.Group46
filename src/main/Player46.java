@@ -35,14 +35,14 @@ public class Player46 implements ContestSubmission
 
 	public void setSeed(long seed)
 	{
-		// Set seed of algortihms random process
-		//rnd_.setSeed(seed);
+		rnd_.setSeed(seed);
 	}
 
 	public void setEvaluation(ContestEvaluation evaluation)
 	{
 		// Set evaluation problem used in the run
 		evaluation_ = evaluation;
+		Individual.SetEvaluation(evaluation_);
 
 		// Get evaluation properties
 		Properties props = evaluation.getProperties();
@@ -64,10 +64,13 @@ public class Player46 implements ContestSubmission
     
 	public void run()
 	{
+		SetRandom();
+
+		IslandParameters islandParameters = null;
 		Logger islandLog = new Logger("IslandEvolution" + sdf.format(new Timestamp(System.currentTimeMillis())));
 
 		Population population = Population
-				.Create(population_size, island_count, evaluation_, rnd_);
+				.Create(population_size, island_count, islandParameters);
 
 		islandLog.AddRow(population.getLogHeader());
 		islandLog.AddRows(population.GetGenerationLog());
@@ -94,5 +97,15 @@ public class Player46 implements ContestSubmission
 			MigrationPolicies.Migrate(population, island_count);
 			epochs = 0;
 		}
+	}
+
+	private void SetRandom()
+	{
+		Genotype.SetRandom(rnd_);
+		Individual.SetRandom(rnd_);
+		Island.SetRandom(rnd_);
+		MigrationPolicies.SetRandom(rnd_);
+		Operators.SetRandom(rnd_);
+		Population.SetRandom(rnd_);
 	}
 }

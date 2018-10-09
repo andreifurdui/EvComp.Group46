@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class Genotype {
     public static final int GenotypeLength = 10;
+    private static Random rand;
 
     public double[] Values;
     public double[] MutationStepSize;
@@ -27,6 +28,11 @@ public class Genotype {
         return header;
     }
 
+    public static void SetRandom(Random rnd_)
+    {
+        rand = rnd_;
+    }
+
     private double[] Bounded(double[] values)
     {
         for (int i = 0; i < 10; i++) {
@@ -45,7 +51,7 @@ public class Genotype {
                         value;
     }
 
-    public static Genotype Create(Random rand) {
+    public static Genotype CreateRandom() {
         double[] values = new double[GenotypeLength];
         double[] stepSize = new double[GenotypeLength];
 
@@ -68,7 +74,7 @@ public class Genotype {
         return log;
     }
 
-    public Genotype Mutate(IslandParameters parameters, Random rand)
+    public Genotype Mutate(IslandParameters parameters)
     {
         double[] mutatedGenes = new double[10];
         double[] mutationStepSizes = new double[10];

@@ -11,7 +11,7 @@ public class Island {
     public List<Individual> IslandPopulation;
     public IslandParameters IslandParameters;
 
-    private static Random rand = new Random();
+    private static Random rand;
 
     public Island(int islandIndex, List<Individual> island, IslandParameters islandParameters)
     {
@@ -19,6 +19,11 @@ public class Island {
         this.Generation = 1;
         this.IslandPopulation = island;
         this.IslandParameters = islandParameters;
+    }
+
+    public static void SetRandom(Random rnd_)
+    {
+        rand = rnd_;
     }
 
     public void Evolve(ContestEvaluation eval)
@@ -56,7 +61,7 @@ public class Island {
             double crossoverDiceRoll = rand.nextDouble();
             List<Individual> newChildren = new ArrayList<>();
 
-            if(crossoverDiceRoll < IslandParameters.CrossoverMethodChance)
+            if(crossoverDiceRoll < IslandParameters.CrossoverChance)
             { //do whole arithmetic xover
                 newChildren = Operators.AritmeticalXover(mom, dad);
             }

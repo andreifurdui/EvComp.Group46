@@ -2,8 +2,12 @@ package main;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
-public class MigrationPolicies {
+public class MigrationPolicies
+{
+    private static Random rand;
+
     public static Population Migrate(Population population, int island_count)
     {
         List<Island> Islands = population.Islands;
@@ -42,5 +46,10 @@ public class MigrationPolicies {
         population.Epoch++;
         population.Islands = Islands;
         return population;
+    }
+
+    public static void SetRandom(Random rnd_)
+    {
+        rand = rnd_;
     }
 }

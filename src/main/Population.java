@@ -1,7 +1,5 @@
 package main;
 
-import org.vu.contest.ContestEvaluation;
-
 import java.util.*;
 public class Population {
 
@@ -9,9 +7,9 @@ public class Population {
     public List<Island> Islands;
 
     public int Epoch;
-    private Random rand;
+    private static Random rand;
 
-    public Population(List<Individual> population, List<Individual>[] islands, int islandCount, Random rnd)
+    public Population(List<Individual> population, List<Individual>[] islands, IslandParameters islandParameters, int islandCount)
     {
         this.Population = population;
 
@@ -19,13 +17,11 @@ public class Population {
         this.Islands = new ArrayList<>();
         for (int i = 0; i < islandCount; i++) {
             Collections.sort(islands[i], Individual.Comparator);
-            this.Islands.add(new Island(i, islands[i], IslandParameters.GetIslandParameters(islands[i].size(), i)));
+            this.Islands.add(new Island(i, islands[i], islandParameters));
         }
-
-        this.rand = rnd;
     }
 
-    public static Population Create(int population_size, int island_count, ContestEvaluation evaluation_, Random rnd_) {
+    public static Population Create(int population_size, int island_count, IslandParameters islandParameters) {
         List<Individual> pop = new ArrayList<Individual>();
 
         List<Individual>[] islands = new List[island_count];
@@ -34,18 +30,23 @@ public class Population {
         }
 
         for (int i = 0; i < population_size; i++) {
-            Individual ind = Individual.Create(evaluation_, rnd_);
+            Individual ind = Individual.CreateRandom();
             pop.add(ind);
 
-            int diceRoll = rnd_.nextInt(4);
+            int diceRoll = rand.nextInt(4);
             while(islands[diceRoll].size() == population_size / island_count){
-                diceRoll = rnd_.nextInt(4);
+                diceRoll = rand.nextInt(4);
             }
 
             islands[diceRoll].add(ind);
         }
 
-        return new Population(pop, islands, island_count, rnd_);
+        return new Population(pop, islands, islandParameters, island_count);
+    }
+
+    public static void SetRandom(Random rnd_)
+    {
+        rand = rnd_;
     }
 
     public List<String[]> GetGenerationLog()
