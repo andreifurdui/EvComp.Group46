@@ -25,9 +25,9 @@ public class Logger {
         Content.addAll(data);
     }
 
-    public void AddRow(String[] logHeader)
+    public void AddRow(List<String> logHeader)
     {
-        Content.add(logHeader);
+        Content.add(logHeader.toArray(new String[0]));
     }
 
     public void WriteLog()
@@ -60,5 +60,14 @@ public class Logger {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void Print(List<String> result)
+    {
+        for (String s: result) {
+            System.out.print(s);
+            System.out.print("   ");
+        }
+        System.out.println();
     }
 }

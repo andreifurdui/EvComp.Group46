@@ -3,14 +3,21 @@ package main;
 import org.vu.contest.ContestEvaluation;
 import org.vu.contest.ContestSubmission;
 
+import java.io.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Player46 implements ContestSubmission
 {
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+	private static final int number_of_runs = 10;
+	private static final boolean WithLogging = false;
 
 	Random rnd_;
 	ContestEvaluation evaluation_;
@@ -23,14 +30,75 @@ public class Player46 implements ContestSubmission
 		rnd_ = new Random();
 	}
 
-	public static void main(String args[]){
-		Player46 player = new Player46();
-		try {
+	public static void main(String args[]) throws IOException {
+		ProcessBuilder term = new ProcessBuilder("/bin/bash");
+		Process p = term.start();
 
-			player.run();
-		} catch (Exception e) {
-			e.printStackTrace();
+		InputStream is = p.getInputStream();
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader processOutput = new BufferedReader(isr);
+		BufferedWriter processInput = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+
+		Logger log = new Logger("ParamTuning");
+		List<String> logHeader = new ArrayList<>();
+		logHeader.add("MutationChance");
+		logHeader.add("CrossoverChance");
+		logHeader.add("TournamentSize");
+		logHeader.add("LearningRate");
+		logHeader.add("AverageScore");
+		log.AddRow(logHeader);
+
+		String function = "BentCigarFunction";
+		String output;
+
+		for (double mutationChance = 0.2; mutationChance <= 0.3; mutationChance += 0.05) {
+			for (double crossoverChance = 0.6; crossoverChance <= 0.8; crossoverChance += 0.1)
+				for (int tournamentSize = 2; tournamentSize < 5; tournamentSize += 1)
+					for (double learningRate = 0.25; learningRate <= 0.75; learningRate += 0.25)
+					{
+						double avgScore = 0;
+						for (int run = 0; run < number_of_runs; run++) {
+							String command = String.format("java -Djava.library.path=/root/UvA/EC/EvComp.Group46/files -Dmc=%f -Dcc=%f -Dts=%d -Dlr=%f -Dfile.encoding=UTF-8 -jar /root/UvA/EC/EvComp.Group46/files/testrun.jar -submission=main.Player46 -evaluation=%s -nosec -seed=2",
+									mutationChance,
+									crossoverChance,
+									tournamentSize,
+									learningRate,
+									function);
+
+							processInput.write(command);
+							processInput.newLine();
+							processInput.flush();
+
+							int linesRead = 0;
+							double score;
+
+							while (linesRead < 2 && (output = processOutput.readLine()) != null) {
+								if (linesRead == 0) {
+									score = Double.parseDouble(output.substring(6));
+									avgScore += score;
+								}
+								linesRead++;
+							}
+						}
+
+						List<String> result = new ArrayList<>();
+						result.add(Double.toString(mutationChance));
+						result.add(Double.toString(crossoverChance));
+						result.add(Double.toString(tournamentSize));
+						result.add(Double.toString(learningRate));
+						result.add(Double.toString(avgScore / number_of_runs));
+						log.AddRow(result);
+						log.Print(result);
+					}
 		}
+
+		processInput.write("exit");
+		processInput.newLine();
+		processInput.flush();
+
+		// close streams
+		processInput.close();
+		processOutput.close();
 	}
 
 	public void setSeed(long seed)
@@ -86,7 +154,8 @@ public class Player46 implements ContestSubmission
 					try{
 						population.Islands.get(island).Evolve(evaluation_);
 					}catch(Exception e){
-						islandLog.WriteLog();
+						if(WithLogging)
+							islandLog.WriteLog();
 						break LOOP;
 					}
 				}

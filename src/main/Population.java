@@ -61,13 +61,13 @@ public class Population {
         return log;
     }
 
-    public String[] getLogHeader()
+    public List<String> getLogHeader()
     { // keep same add order as in the data
         List<String> header = new ArrayList<>();
 
         header.addAll(Island.getLogHeader());
         header.add("Epoch");
 
-        return header.toArray(new String[0]);
+        return header;
     }
 }
