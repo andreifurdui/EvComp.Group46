@@ -48,7 +48,7 @@ public class Player46 implements ContestSubmission
 		logHeader.add("AverageScore");
 		log.AddRow(logHeader);
 
-		String function = "BentCigarFunction";
+		String function = "SchaffersEvaluation";
 		String output;
 
 		for (double mutationChance = 0.2; mutationChance <= 0.3; mutationChance += 0.05) {
@@ -99,6 +99,7 @@ public class Player46 implements ContestSubmission
 		// close streams
 		processInput.close();
 		processOutput.close();
+		log.WriteLog();
 	}
 
 	public void setSeed(long seed)
