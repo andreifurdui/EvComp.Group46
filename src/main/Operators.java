@@ -44,13 +44,14 @@ public class Operators {
 
         for (int i = 0; i < 10; i++) {
             double dist = Math.abs(mom.Genes.Values[i] - dad.Genes.Values[i]);
+            double msdist = Math.abs(mom.Genes.MutationStepSize[i] - dad.Genes.MutationStepSize[i]);
 
             double diceRoll = rand.nextDouble();
-            genotype1[i] = diceRoll * dist + Math.min(mom.Genes.Values[i], dad.Genes.Values[i]);
-            mutationStepSizes1[i] = diceRoll * dist + Math.min(mom.Genes.MutationStepSize[i], dad.Genes.MutationStepSize[i]);
+            genotype1[i] = diceRoll * dist * 2 + Math.min(mom.Genes.Values[i] - bias*dist, dad.Genes.Values[i] - bias*dist);
+            mutationStepSizes1[i] = diceRoll * msdist * 2 + Math.min(mom.Genes.MutationStepSize[i] - bias*msdist, dad.Genes.MutationStepSize[i] - bias*msdist);
             diceRoll = rand.nextDouble();
-            genotype2[i] = diceRoll * dist + Math.min(mom.Genes.Values[i], dad.Genes.Values[i]);
-            mutationStepSizes2[i] = diceRoll * dist + Math.min(mom.Genes.MutationStepSize[i], dad.Genes.MutationStepSize[i]);
+            genotype2[i] = diceRoll * dist * 2 + Math.min(mom.Genes.Values[i] - bias*dist, dad.Genes.Values[i] - bias*dist);
+            mutationStepSizes2[i] = diceRoll * msdist * 2 + Math.min(mom.Genes.MutationStepSize[i] - bias*msdist, dad.Genes.MutationStepSize[i] - bias*msdist);
         }
 
         List<Individual> children = new ArrayList<>();
@@ -80,6 +81,22 @@ public class Operators {
         children.add(new Individual(new Genotype(genotype2, mutationStepSizes2)));
 
         return children;
+    }
+
+    public static Genotype Mutate(Genotype genotype, IslandParameters parameters)
+    {
+        double[] mutatedGenes = new double[10];
+        double[] mutationStepSizes = new double[10];
+
+        double gaussianDiceRoll = rand.nextGaussian();
+
+        for (int i = 0; i < 10; i++) {
+            mutationStepSizes[i] = genotype.MutationStepSize[i] * Math.exp(parameters.LearningRate * gaussianDiceRoll);
+
+            mutatedGenes[i] = genotype.Values[i] + mutationStepSizes[i] * rand.nextGaussian();
+        }
+
+        return new Genotype(mutatedGenes, mutationStepSizes);
     }
 
     public static void SetRandom(Random rnd_)

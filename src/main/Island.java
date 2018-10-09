@@ -63,16 +63,23 @@ public class Island {
 
             if(crossoverDiceRoll < IslandParameters.CrossoverChance)
             { //do whole arithmetic xover
-                newChildren = Operators.AritmeticalXover(mom, dad);
+                newChildren = Operators.BlendXover(mom, dad);
             }
 
-            for (Individual ind: newChildren) {
-                double mutationDiceRoll = rand.nextDouble();
+            double mutationDiceRoll = rand.nextDouble();
 
-                if(mutationDiceRoll < IslandParameters.MutationChance)
-                {
-                    ind = ind.Mutate(IslandParameters);
-                }
+            if(mutationDiceRoll < IslandParameters.MutationChance)
+            {
+                Individual mutantChild = mom.Mutate(IslandParameters);
+                newChildren.add(mutantChild);
+            }
+
+            mutationDiceRoll = rand.nextDouble();
+
+            if(mutationDiceRoll < IslandParameters.MutationChance)
+            {
+                Individual mutantChild = dad.Mutate(IslandParameters);
+                newChildren.add(mutantChild);
             }
 
             allChildren.addAll(newChildren);

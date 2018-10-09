@@ -35,7 +35,8 @@ public class Player46 implements ContestSubmission
 
 	public void setSeed(long seed)
 	{
-		rnd_.setSeed(seed);
+		int randomSeed = (new Random()).nextInt();
+		rnd_.setSeed(randomSeed);
 	}
 
 	public void setEvaluation(ContestEvaluation evaluation)
@@ -65,8 +66,7 @@ public class Player46 implements ContestSubmission
 	public void run()
 	{
 		SetRandom();
-
-		IslandParameters islandParameters = null;
+		IslandParameters islandParameters = GetIslandParameters();
 		Logger islandLog = new Logger("IslandEvolution" + sdf.format(new Timestamp(System.currentTimeMillis())));
 
 		Population population = Population
@@ -97,6 +97,17 @@ public class Player46 implements ContestSubmission
 			MigrationPolicies.Migrate(population, island_count);
 			epochs = 0;
 		}
+	}
+
+	private IslandParameters GetIslandParameters()
+	{
+		int tournamentSize = Integer.parseInt(System.getProperty(("ts")));
+		double crossoverChance = Double.parseDouble(System.getProperty(("cc")));
+		double mutationChance = Double.parseDouble(System.getProperty("mc"));
+		double learningRate = Double.parseDouble(System.getProperty("lr"));
+		int elites = 1;
+
+		return new IslandParameters(tournamentSize, mutationChance, elites, crossoverChance, learningRate);
 	}
 
 	private void SetRandom()

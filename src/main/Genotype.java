@@ -73,20 +73,4 @@ public class Genotype {
 
         return log;
     }
-
-    public Genotype Mutate(IslandParameters parameters)
-    {
-        double[] mutatedGenes = new double[10];
-        double[] mutationStepSizes = new double[10];
-
-        double gaussianDiceRoll = rand.nextGaussian();
-
-        for (int i = 0; i < 10; i++) {
-            mutationStepSizes[i] = this.MutationStepSize[i] * Math.exp(parameters.Mutation_Tau_Prime * gaussianDiceRoll + parameters.Mutation_Tau * rand.nextGaussian());
-
-            mutatedGenes[i] = this.Values[i] + mutationStepSizes[i] * rand.nextGaussian();
-        }
-
-        return new Genotype(mutatedGenes, mutationStepSizes);
-    }
 }

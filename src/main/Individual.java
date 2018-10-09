@@ -35,7 +35,7 @@ public class Individual {
 
     public Individual Mutate(IslandParameters parameters)
     {
-        Genotype mutatedGenotype = this.Genes.Mutate(parameters);
+        Genotype mutatedGenotype = Operators.Mutate(this.Genes, parameters);
 
         return new Individual(mutatedGenotype);
     }
