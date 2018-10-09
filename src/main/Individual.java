@@ -40,17 +40,6 @@ public class Individual {
         return new Individual(mutatedGenotype);
     }
 
-    public static List<String> getLogHeader()
-    {
-        List<String> header = new ArrayList<>();
-
-        header.addAll(Genotype.getLogHeader());
-        header.add("Fitness");
-        header.add("MutationStepSize");
-
-        return header;
-    }
-
     public List<String> Log()
     {
         List<String> log = new ArrayList<>(Genes.Log());
@@ -58,6 +47,16 @@ public class Individual {
         log.add(Double.toString(Fitness));
 
         return log;
+    }
+
+    public static List<String> getLogHeader()
+    {
+        List<String> header = new ArrayList<>();
+
+        header.addAll(Genotype.getLogHeader());
+        header.add("Fitness");
+
+        return header;
     }
 
     static class SortByFitness implements Comparator<Individual>{

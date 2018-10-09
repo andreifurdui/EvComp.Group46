@@ -9,8 +9,8 @@ public class IslandParameters
     public static final double LearningRate_Global_PropFactor = 1 / Math.sqrt(individual_dimension);
 
     public int TournamentSize;
-    public double MutationChance;
     public int ElitistSurvivors;
+    public double MutationChance;
     public double CrossoverChance;
     public double LearningRate;
 
@@ -23,27 +23,29 @@ public class IslandParameters
         this.LearningRate = learningRate * LearningRate_Global_PropFactor;
     }
 
-    public static List<String> getHeaderLog()
-    {
-        List<String> header = new ArrayList<>();
-
-        header.add("CrossoverMethodChance");
-        header.add("MutationChance");
-        header.add("MutationStepSizeMultiplier");
-        header.add("TournamentSize");
-        header.add("ElitistSurvivors");
-
-        return header;
-    }
-
     public List<String> Log()
     {
         List<String> log = new ArrayList<>();
 
-        log.add(Double.toString(MutationChance));
         log.add(Integer.toString(TournamentSize));
         log.add(Integer.toString(ElitistSurvivors));
+        log.add(Double.toString(MutationChance));
+        log.add(Double.toString(CrossoverChance));
+        log.add(Double.toString(LearningRate));
 
         return log;
+    }
+
+    public static List<String> getHeaderLog()
+    {
+        List<String> header = new ArrayList<>();
+
+        header.add("TournamentSize");
+        header.add("ElitistSurvivors");
+        header.add("MutationChance");
+        header.add("CrossoverChance");
+        header.add("LearningRate");
+
+        return header;
     }
 }

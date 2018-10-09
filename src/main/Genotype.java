@@ -17,17 +17,6 @@ public class Genotype {
         this.MutationStepSize = mutationSizes;
     }
 
-    public static List<String> getLogHeader()
-    {
-        List<String> header = new ArrayList<>();
-
-        for (int i = 0; i < GenotypeLength; i++) {
-            header.add("X_" + i);
-        }
-
-        return header;
-    }
-
     public static void SetRandom(Random rnd_)
     {
         rand = rnd_;
@@ -70,7 +59,24 @@ public class Genotype {
         for (int i = 0; i < GenotypeLength; i++) {
             log.add(Double.toString(Values[i]));
         }
+        for (int i = 0; i < GenotypeLength; i++) {
+            log.add(Double.toString(MutationStepSize[i]));
+        }
 
         return log;
+    }
+
+    public static List<String> getLogHeader()
+    {
+        List<String> header = new ArrayList<>();
+
+        for (int i = 0; i < GenotypeLength; i++) {
+            header.add("X_" + i);
+        }
+        for (int i = 0; i < GenotypeLength; i++) {
+            header.add("MutStepSize_" + i);
+        }
+
+        return header;
     }
 }

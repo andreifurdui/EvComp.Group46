@@ -105,6 +105,17 @@ public class Island {
         return log;
     }
 
+    public List<String> GetIslandMeta()
+    {
+        List<String> islandMeta = new ArrayList<>();
+
+        islandMeta.add(Integer.toString(IslandIndex));
+        islandMeta.add(Integer.toString(Generation));
+        islandMeta.addAll(IslandParameters.Log());
+
+        return islandMeta;
+    }
+
     public static List<String> getLogHeader()
     {
         List<String> header = new ArrayList<>();
@@ -115,16 +126,5 @@ public class Island {
         header.addAll(main.IslandParameters.getHeaderLog());
 
         return header;
-    }
-
-    public List<String> GetIslandMeta()
-    {
-        List<String> islandMeta = new ArrayList<>();
-
-        islandMeta.add(Integer.toString(IslandIndex));
-        islandMeta.add(Integer.toString(Generation));
-        islandMeta.addAll(IslandParameters.Log());
-
-        return islandMeta;
     }
 }
