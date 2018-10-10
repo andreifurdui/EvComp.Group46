@@ -8,10 +8,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Random;
 
 public class Player46 implements ContestSubmission
 {
@@ -31,6 +29,7 @@ public class Player46 implements ContestSubmission
 	}
 
 	public static void main(String args[]) throws IOException {
+		System.out.println("HOLO");
 		ProcessBuilder term = new ProcessBuilder("/bin/bash");
 		Process p = term.start();
 
@@ -57,7 +56,7 @@ public class Player46 implements ContestSubmission
 					{
 						double avgScore = 0;
 						for (int run = 0; run < number_of_runs; run++) {
-							String command = String.format("java -Djava.library.path=/root/UvA/EC/EvComp.Group46/files -Dmc=%f -Dcc=%f -Dts=%d -Dlr=%f -Dfile.encoding=UTF-8 -jar /root/UvA/EC/EvComp.Group46/files/testrun.jar -submission=main.Player46 -evaluation=%s -nosec -seed=%d",
+							String command = String.format("java -Djava.library.path=~/files -Dmc=%f -Dcc=%f -Dts=%d -Dlr=%f -Dfile.encoding=UTF-8 -jar /root/UvA/EC/EvComp.Group46/files/testrun.jar -submission=main.Player46 -evaluation=%s -nosec -seed=%d",
 									mutationChance,
 									crossoverChance,
 									tournamentSize,

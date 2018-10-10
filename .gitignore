@@ -16,7 +16,8 @@
 .settings
 
 # Idea
-.idea
+!.idea/runConfigurations/
+.idea/
 *.iml
 *.iws
 *.ipr
@@ -35,7 +36,6 @@ Thumbs.db
 hs_err_pid*
 
 # assignment specifics
-tmp/**
 group-46-idea/out/production/group46-module/tmp/
 # Gradle
 .gradle
@@ -53,3 +53,5 @@ bin
 *.log
 *.swp
 *.bak
+tmp/
+files/tmp/
