@@ -16,7 +16,6 @@
 .settings
 
 # Idea
-.idea/workspace.xml
 .idea
 *.iml
 *.iws
@@ -27,9 +26,7 @@ Thumbs.db
 .DS_Store
 
 # Package Files #
-*.war
 *.nar
-*.ear
 *.zip
 *.tar.gz
 *.rar
