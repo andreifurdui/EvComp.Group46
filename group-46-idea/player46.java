@@ -50,7 +50,12 @@ public class player46 implements ContestSubmission
 	private Individual offspringA;
 	private Individual offspringB;
 
-	private static final int number_of_runs = 40;
+	private static final int number_of_runs = 5;
+
+	public player46()
+	{
+		rnd_ = new Random();
+	}
 
 	public static void main(String args[]) throws IOException {
 		ProcessBuilder term = new ProcessBuilder("/bin/bash");
@@ -81,7 +86,7 @@ public class player46 implements ContestSubmission
 						for (int run = 0; run < number_of_runs; run++) {
 							String currentDir = System.getProperty("user.dir");
 
-							String command = String.format("java -Djava.library.path=%s/files -Dmc=%f -Dcc=%f -Dts=%d -Dlr=%f -Dfile.encoding=UTF-8 -jar %s/files/testrun.jar -submission=main.Player46 -evaluation=%s -nosec -seed=%d",
+							String command = String.format("java -Djava.library.path=%s -Dmc=%f -Dcc=%f -Dts=%d -Dlr=%f -Dfile.encoding=UTF-8 -jar %s/testrun.jar -submission=main.Player46 -evaluation=%s -nosec -seed=%d",
 									currentDir,
 									mutationChance,
 									crossoverChance,
@@ -126,11 +131,6 @@ public class player46 implements ContestSubmission
 		log.WriteLog();
 	}
 
-	public player46()
-	{
-		rnd_ = new Random();
-	}
-	
 	public void setSeed(long seed)
 	{
 		// Set seed of algortihms random process
