@@ -20,11 +20,11 @@ public class player46 implements ContestSubmission
     private int indiv_dim = 10;
     private double[] min_max = {-5,5};
     private int fitness_index = indiv_dim;
-    private double p_crossover = 1;
-    private double p_mutation = 1;
+    private double p_crossover = 0.65;
+    private double p_mutation = 0.95;
     private double mutation_step_size_start = 1;
-    private double mutation_tau_apos = 1/Math.sqrt(2*indiv_dim);
-    private double mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim));
+    private double mutation_tau_apos = 1/Math.sqrt(2*indiv_dim)*1.5;
+    private double mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim))*0;
 
     private double alpha = 0.5;
 
@@ -36,10 +36,10 @@ public class player46 implements ContestSubmission
 	private double p_mutation_ls = 1;
 
 
-	private double eval_search_split = 0.9;
-	private int ls_in_best = 3;
-	private double p_mutation_ls_end = 0.5;
-	private double mutation_step_size_ls_end = 0.01;
+	private double eval_search_split = 0.8;
+	private int ls_in_best = 2;
+	private double p_mutation_ls_end = 0.8;
+	private double mutation_step_size_ls_end = 0.001;
 
 	private ArrayList<Individual> pops = new ArrayList<>();
 
