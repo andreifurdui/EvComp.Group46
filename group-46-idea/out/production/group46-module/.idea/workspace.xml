@@ -4,6 +4,10 @@
     <list default="true" id="e027099b-b1e6-433d-be43-37829d38e0c4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group46-module.iml" beforeDir="false" afterPath="$PROJECT_DIR$/group46-module.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javabbob/JNIfgeneric.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/group46-module/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/group46-module/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/group46-module/group46-module.iml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/group46-module/group46-module.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../javabbob/JNIfgeneric.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -74,38 +78,38 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.closed" value="15" />
-          <entry key="project.open.time.0" value="7" />
+          <entry key="project.open.time.0" value="8" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.5" value="3" />
           <entry key="project.open.time.6" value="6" />
           <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="18" />
+          <entry key="project.opened" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="58" />
-          <entry key="java" value="9894" />
+          <entry key="java" value="9899" />
           <entry key="txt" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="9894" />
+          <entry key="JAVA" value="9899" />
           <entry key="PLAIN_TEXT" value="98" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="12" />
-          <entry key="java" value="9" />
+          <entry key="java" value="11" />
           <entry key="md" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="12" />
-          <entry key="JAVA" value="9" />
+          <entry key="JAVA" value="11" />
           <entry key="Markdown" value="1" />
         </counts>
       </usages-collector>
@@ -123,20 +127,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player46.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
-              <caret line="77" column="92" selection-start-line="77" selection-start-column="92" selection-end-line="77" selection-end-column="92" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Logger.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="930">
-              <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
+            <state relative-caret-position="106">
+              <caret line="99" selection-start-line="99" selection-end-line="99" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -158,6 +150,7 @@
       <find>pop</find>
       <find>5</find>
       <find>run</find>
+      <find>int</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -182,7 +175,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="4">
-    <option name="x" value="3233" />
+    <option name="x" value="1313" />
     <option name="y" value="25" />
     <option name="width" value="1247" />
     <option name="height" value="1415" />
@@ -203,19 +196,14 @@
             </path>
             <path>
               <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="group-46-idea" type="462c0819:PsiDirectoryNode" />
-              <item name="javabbob" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -226,7 +214,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539433005489" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/files/testrun.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="$USER_HOME$/.nvm/versions/node/v8.2.1/bin/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -257,7 +245,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.player46">
+  <component name="RunManager" selected="JAR Application.BentCigar">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -559,8 +547,7 @@
     </configuration>
     <configuration name="player46" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="player46" />
-      <module name="assignment" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <module name="group46-module" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -609,9 +596,9 @@
       </method>
     </configuration>
     <configuration name="BentCigar" type="JarApplication" factoryName="JAR Application">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/out/production/group46-module/testrun.jar" />
-      <option name="VM_PARAMETERS" value="-Djava.library.path=$PROJECT_DIR$" />
-      <option name="PROGRAM_PARAMETERS" value="-submission=player46 -evaluation=BentCigarFunction -seed=1" />
+      <option name="JAR_PATH" value="$PROJECT_DIR$/files/testrun.jar" />
+      <option name="VM_PARAMETERS" value="-Djava.library.path=$PROJECT_DIR$/files -Dmc=0.5 -Dcc=0.7 -Dts=4 -Dlr=0.5" />
+      <option name="PROGRAM_PARAMETERS" value="-submission=player46 -evaluation=BentCigarFunction -nosec -seed=1" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/out/production/group46-module/" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2" />
@@ -719,8 +706,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JAR Application.testrun.jar" />
         <item itemvalue="Application.player46" />
+        <item itemvalue="JAR Application.testrun.jar" />
       </list>
     </recent_temporary>
   </component>
@@ -770,6 +757,7 @@
       <workItem from="1539427258800" duration="328000" />
       <workItem from="1539428026011" duration="1583000" />
       <workItem from="1539433386397" duration="145000" />
+      <workItem from="1539433752835" duration="1146000" />
     </task>
     <task id="LOCAL-00001" summary="First Draft; Crossover has to be updated">
       <created>1537384001272</created>
@@ -782,12 +770,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90713000" />
+    <option name="totallyTimeSpent" value="92482000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="3233" y="27" width="1237" height="1413" extended-state="4" />
+    <frame x="1313" y="25" width="1247" height="1415" extended-state="4" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" id="Project" order="0" visible="true" weight="0.23425692" />
+      <window_info active="true" id="Project" order="0" visible="true" weight="0.23480433" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -796,7 +785,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936507" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.16666667" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32936507" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -889,9 +878,21 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/player46.java</url>
-          <line>257</line>
+          <line>88</line>
           <properties />
-          <option name="timeStamp" value="132" />
+          <option name="timeStamp" value="134" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/player46.java</url>
+          <line>484</line>
+          <properties />
+          <option name="timeStamp" value="140" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/player46.java</url>
+          <line>99</line>
+          <properties />
+          <option name="timeStamp" value="151" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -972,27 +973,28 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/out/production/group46-module/player46.class" />
     <entry file="file://$PROJECT_DIR$/Logger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state>
+          <caret column="18" selection-start-column="18" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javabbob/JNIfgeneric.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="27" column="36" lean-forward="true" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/player46.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="77" column="92" selection-start-line="77" selection-start-column="92" selection-end-line="77" selection-end-column="92" />
+        <state relative-caret-position="106">
+          <caret line="99" selection-start-line="99" selection-end-line="99" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

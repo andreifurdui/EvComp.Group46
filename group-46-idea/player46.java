@@ -78,15 +78,15 @@ public class player46 implements ContestSubmission
 		String output;
 
 		for (double alph = 0.3; alph <= 0.51; alph += 0.05) {
-			for (double mutant_start = 0.5; mutant_start <= 1.6; mutant_start += 0.25)
-				for (double tau_scale = 0.5; tau_scale <= 1.6; tau_scale += 0.25)
-					for (double tau_prime_scale = 0.5; tau_prime_scale <= 1.6; tau_prime_scale += 0.25)
+			for (double mutant_start = 0.3; mutant_start <= 1.6; mutant_start += 0.25)
+				for (double tau_scale = 0.7; tau_scale <= 1.4; tau_scale += 0.2)
+					for (double tau_prime_scale = 0.7; tau_prime_scale <= 1.4; tau_prime_scale += 0.2)
 					{
 						double avgScore = 0;
 						for (int run = 0; run < number_of_runs; run++) {
 							String currentDir = System.getProperty("user.dir");
 
-							String command = String.format("java -Djava.library.path=%s/files -Dmc=%f -Dcc=%f -Dts=%f -Dlr=%f -Dfile.encoding=UTF-8 -jar %s/files/testrun.jar -submission=main.Player46 -evaluation=%s -nosec -seed=%d",
+							String command = String.format("/usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java -Djava.library.path=%s -Dmc=%f -Dcc=%f -Dts=%f -Dlr=%f -Dfile.encoding=UTF-8 -jar %s/out/production/group46-module//testrun.jar -submission=player46 -evaluation=%s -nosec -seed=%d",
 									currentDir,
 									alph,
 									mutant_start,
