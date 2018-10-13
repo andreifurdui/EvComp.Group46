@@ -21,11 +21,11 @@ public class player46 implements ContestSubmission
     private double[] min_max = {-5,5};
     private int fitness_index = indiv_dim;
 
-    private double p_crossover = 0.65;
+    private double p_crossover = 0.8;
     private double p_mutation = 0.95;
     private double mutation_step_size_start = 1;
     private double mutation_tau_apos = 1/Math.sqrt(2*indiv_dim);
-    private double mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim))*0;
+    private double mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim));
 
     private double alpha = 0.5;
 
@@ -37,7 +37,7 @@ public class player46 implements ContestSubmission
 	private double p_mutation_ls = 1;
 
 
-	private double eval_search_split = 0.8;
+	private double eval_search_split = 1;
 	private int ls_in_best = 2;
 	private double p_mutation_ls_end = 0.8;
 	private double mutation_step_size_ls_end = 0.001;
@@ -50,7 +50,7 @@ public class player46 implements ContestSubmission
 	private Individual offspringA;
 	private Individual offspringB;
 
-	private static final int number_of_runs = 5;
+	private static final int number_of_runs = 10;
 
 	public player46()
 	{
@@ -68,30 +68,30 @@ public class player46 implements ContestSubmission
 
 		Logger log = new Logger("ParamTuning");
 		List<String> logHeader = new ArrayList<>();
-		logHeader.add("MutationChance");
-		logHeader.add("CrossoverChance");
-		logHeader.add("LearningRate");
-		logHeader.add("AverageScore");
+		logHeader.add("Alpha");
+		logHeader.add("Mutation_Step_Size_Start");
+		logHeader.add("Tau_Scale");
+		logHeader.add("Tau_Prime_Scale");
 		log.AddRow(logHeader);
 
 		String function = "BentCigarFunction";
 		String output;
 
-		for (double mutationChance = 0.85; mutationChance <= 0.96; mutationChance += 0.05) {
-			for (double crossoverChance = 0.65; crossoverChance <= 0.76; crossoverChance += 0.05)
-				for (int tournamentSize = 2; tournamentSize < 3; tournamentSize += 1)
-					for (double learningRate = 0.5; learningRate <= 1.5; learningRate += 0.5)
+		for (double alph = 0.3; alph <= 0.51; alph += 0.05) {
+			for (double mutant_start = 0.5; mutant_start <= 1.6; mutant_start += 0.25)
+				for (double tau_scale = 0.5; tau_scale <= 1.6; tau_scale += 0.25)
+					for (double tau_prime_scale = 0.5; tau_prime_scale <= 1.6; tau_prime_scale += 0.25)
 					{
 						double avgScore = 0;
 						for (int run = 0; run < number_of_runs; run++) {
 							String currentDir = System.getProperty("user.dir");
 
-							String command = String.format("java -Djava.library.path=%s -Dmc=%f -Dcc=%f -Dts=%d -Dlr=%f -Dfile.encoding=UTF-8 -jar %s/testrun.jar -submission=main.Player46 -evaluation=%s -nosec -seed=%d",
+							String command = String.format("java -Djava.library.path=%s/files -Dmc=%f -Dcc=%f -Dts=%f -Dlr=%f -Dfile.encoding=UTF-8 -jar %s/files/testrun.jar -submission=main.Player46 -evaluation=%s -nosec -seed=%d",
 									currentDir,
-									mutationChance,
-									crossoverChance,
-									tournamentSize,
-									learningRate,
+									alph,
+									mutant_start,
+									tau_scale,
+									tau_prime_scale,
 									currentDir,
 									function,
 									run);
@@ -113,9 +113,10 @@ public class player46 implements ContestSubmission
 						}
 
 						List<String> result = new ArrayList<>();
-						result.add(Double.toString(mutationChance));
-						result.add(Double.toString(crossoverChance));
-						result.add(Double.toString(learningRate));
+						result.add(Double.toString(alph));
+						result.add(Double.toString(mutant_start));
+                        result.add(Double.toString(tau_scale));
+						result.add(Double.toString(tau_prime_scale));
 						result.add(Double.toString(avgScore / number_of_runs));
 						log.AddRow(result);
 						log.Print(result);
@@ -463,10 +464,17 @@ public class player46 implements ContestSubmission
 	public void run()
 	{
 		// Run your algorithm here
-		tournament_size_survival_selection = Integer.parseInt(System.getProperty(("ts")));
-		p_crossover = Double.valueOf(System.getProperty(("cc")));
-		p_mutation = Double.valueOf(System.getProperty("mc"));
-		mutation_tau_apos = Double.valueOf(System.getProperty("lr"));
+		alpha = Double.valueOf(System.getProperty(("ts")));
+
+		mutation_step_size_start = Double.valueOf(System.getProperty(("cc")));
+
+		double tau_scale = Double.valueOf(System.getProperty("mc"));
+		mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim))*tau_scale;
+
+		double tau__prime_scale = Double.valueOf(System.getProperty("lr"));
+        mutation_tau_apos = 1/Math.sqrt(2*indiv_dim)*tau__prime_scale;
+
+
 
 
         // init population uniformly randomly within [-5,5]
@@ -506,7 +514,7 @@ public class player46 implements ContestSubmission
 				evals++;
 
 				// apply local search
-				local_search();
+				//local_search();
 
 				// select individuals to be replaced by method x
 				tournament_selection(false);
