@@ -13,9 +13,14 @@ public class Individual implements Comparable<Individual>
 
     public double[] mutation_step_size;
 
-    Individual(int indiv_dim, Random rand){
+    Individual(double mutation_step_size_start, int indiv_dim, Random rand){
         genotype = new double[indiv_dim];
         mutation_step_size = new double[indiv_dim];
+
+        for(int gene = 0; gene < indiv_dim; gene++){
+            // initialize mutation step size
+            mutation_step_size[gene] = mutation_step_size_start;
+        }
 
         rnd_ = rand;
     }
@@ -29,8 +34,6 @@ public class Individual implements Comparable<Individual>
         for(int gene = 0; gene < indiv_dim; gene++){
             // initialize genes
             genotype[gene] = min_max[0] + rnd_.nextFloat() * (min_max[1] - min_max[0]);
-
-            genotype[gene] = round(genotype[gene],3);
 
             // initialize mutation step size
             mutation_step_size[gene] = mutation_step_size_start;

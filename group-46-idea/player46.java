@@ -16,7 +16,7 @@ public class player46 implements ContestSubmission
 	private ContestEvaluation evaluation_;
 	private int evals = 0;
     private int evaluations_limit_;
-    private int pop_size = 100;
+    private int pop_size = 65;
     private int indiv_dim = 10;
     private double[] min_max = {-5,5};
     private int fitness_index = indiv_dim;
@@ -24,25 +24,27 @@ public class player46 implements ContestSubmission
     private double p_crossover = 0.8;
     private double p_mutation = 0.95;
     private double mutation_step_size_start = 1;
-    private double mutation_tau_apos = 1/Math.sqrt(2*indiv_dim);
-    private double mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim));
+    private double mutation_tau_apos = 1/Math.sqrt(2*indiv_dim)*0.7;
+    private double mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim))*0.8;
 
-    private double alpha = 0.5;
+    private double alpha = 0.1;
 
     private int tournament_size_parent_selection = 2;
 	private int tournament_size_survival_selection = 2;
-	private double weaker_offspring_survival_prop = 0.3;
+	private double weaker_offspring_survival_prop = 0.1;
+
 
 	private int local_search_budget = 2;
-	private double p_mutation_ls = 1;
+	private double p_mutation_ls = 0.1;
 
 
-	private double eval_search_split = 1;
-	private int ls_in_best = 2;
-	private double p_mutation_ls_end = 0.8;
-	private double mutation_step_size_ls_end = 0.001;
+	private double eval_search_split =0.8;
+	private int ls_in_best = 1;
+	private double p_mutation_ls_end = 0.1;
+	private double mutation_step_size_ls_end = 0.01;
 
 	private ArrayList<Individual> pops = new ArrayList<>();
+	private ArrayList<Individual> next_gen = new ArrayList<>();
 
 	private int parA;
 	private int parB;
@@ -50,7 +52,12 @@ public class player46 implements ContestSubmission
 	private Individual offspringA;
 	private Individual offspringB;
 
-	private static final int number_of_runs = 10;
+	private static final int number_of_runs = 20;
+
+	// schaffers optimal 100 F0.5 Cr1
+	// bent cigar optimal 50 F0.4 Cr0.9
+	private double F = 0.8;
+	private double Cr = 0.9;
 
 	public player46()
 	{
@@ -66,21 +73,22 @@ public class player46 implements ContestSubmission
 		BufferedReader processOutput = new BufferedReader(isr);
 		BufferedWriter processInput = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
 
-		Logger log = new Logger("ParamTuning");
+		Logger log = new Logger("Mutation_Tuning_DE");
 		List<String> logHeader = new ArrayList<>();
-		logHeader.add("Alpha");
-		logHeader.add("Mutation_Step_Size_Start");
-		logHeader.add("Tau_Scale");
-		logHeader.add("Tau_Prime_Scale");
+		logHeader.add("p_mutation");
+		logHeader.add("sigma_start");
+		logHeader.add("tau_apos_scale");
+		logHeader.add("tau_scale");
+		logHeader.add("Score");
 		log.AddRow(logHeader);
 
 		String function = "BentCigarFunction";
 		String output;
 
-		for (double alph = 0.3; alph <= 0.51; alph += 0.05) {
-			for (double mutant_start = 0.3; mutant_start <= 1.6; mutant_start += 0.25)
-				for (double tau_scale = 0.7; tau_scale <= 1.4; tau_scale += 0.2)
-					for (double tau_prime_scale = 0.7; tau_prime_scale <= 1.4; tau_prime_scale += 0.2)
+		for (double p_mut = 1; p_mut <= 1; p_mut += 0.1) {
+			for (double pop_s = 40; pop_s <= 100; pop_s += 10)
+				for (double tau_as = 0.1; tau_as <= 1.001; tau_as += 0.1)
+					for (double tau = 0.1; tau <= 1.001; tau += 0.1)
 					{
 						double avgScore = 0;
 						for (int run = 0; run < number_of_runs; run++) {
@@ -88,10 +96,10 @@ public class player46 implements ContestSubmission
 
 							String command = String.format("/usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java -Djava.library.path=%s -Dmc=%f -Dcc=%f -Dts=%f -Dlr=%f -Dfile.encoding=UTF-8 -jar %s/out/production/group46-module//testrun.jar -submission=player46 -evaluation=%s -nosec -seed=%d",
 									currentDir,
-									alph,
-									mutant_start,
-									tau_scale,
-									tau_prime_scale,
+									p_mut,
+									pop_s,
+									tau_as,
+									tau,
 									currentDir,
 									function,
 									run);
@@ -113,10 +121,10 @@ public class player46 implements ContestSubmission
 						}
 
 						List<String> result = new ArrayList<>();
-						result.add(Double.toString(alph));
-						result.add(Double.toString(mutant_start));
-                        result.add(Double.toString(tau_scale));
-						result.add(Double.toString(tau_prime_scale));
+						//result.add(Double.toString(p_mut));
+						result.add(Double.toString(pop_s));
+                        result.add(Double.toString(tau_as));
+						result.add(Double.toString(tau));
 						result.add(Double.toString(avgScore / number_of_runs));
 						log.AddRow(result);
 						log.Print(result);
@@ -180,7 +188,7 @@ public class player46 implements ContestSubmission
 				already_in = false;
 				fighters[battle] = rnd_.nextInt(pops.size() - 1);
 				// making sure they are in the set only once
-				for (int par_in_set_a = 0; par_in_set_a < tournament_size; par_in_set_a++) {
+				for (int par_in_set_a = 0; par_in_set_a < 2* tournament_size; par_in_set_a++) {
 					if (fighters[par_in_set_a] == fighters[battle] && par_in_set_a!=battle) {
 						already_in = true;
 					}
@@ -237,8 +245,8 @@ public class player46 implements ContestSubmission
 	private void blend_crossover(){
 		if(p_crossover >= rnd_.nextDouble()) {
 
-			offspringA = new Individual(indiv_dim, rnd_);
-			offspringB = new Individual(indiv_dim, rnd_);
+			offspringA = new Individual(mutation_step_size_start,indiv_dim, rnd_);
+			offspringB = new Individual(mutation_step_size_start,indiv_dim, rnd_);
 
 			// get random crossover point
 			double u = rnd_.nextDouble();
@@ -261,8 +269,8 @@ public class player46 implements ContestSubmission
 	private void avergae_crossover(){
 		if(p_crossover >= rnd_.nextDouble()) {
 
-			offspringA = new Individual(indiv_dim, rnd_);
-			offspringB = new Individual(indiv_dim, rnd_);
+			offspringA = new Individual(mutation_step_size_start,indiv_dim, rnd_);
+			offspringB = new Individual(mutation_step_size_start,indiv_dim, rnd_);
 
 			for(int gene=0; gene<offspringA.genotype.length; gene++) {
 				offspringA.genotype[gene] = (1-alpha)*pops.get(parA).genotype[gene]+alpha*pops.get(parB).genotype[gene];
@@ -281,8 +289,8 @@ public class player46 implements ContestSubmission
 	private void one_point_crossover(){
 
 		if(p_crossover >= rnd_.nextDouble()) {
-			offspringA = new Individual(indiv_dim, rnd_);
-			offspringB = new Individual(indiv_dim, rnd_);
+			offspringA = new Individual(mutation_step_size_start, indiv_dim, rnd_);
+			offspringB = new Individual(mutation_step_size_start, indiv_dim, rnd_);
 
 			// get random crossover point
 			int co_index = rnd_.nextInt(indiv_dim - 1) + 1;
@@ -357,8 +365,8 @@ public class player46 implements ContestSubmission
 		int budget_B = 0;
 		boolean local_search_B_done = false;
 
-		Individual offspringA_ls = new Individual(indiv_dim, rnd_);
-		Individual offspringB_ls = new Individual(indiv_dim, rnd_);
+		Individual offspringA_ls = new Individual(mutation_step_size_start, indiv_dim, rnd_);
+		Individual offspringB_ls = new Individual(mutation_step_size_start, indiv_dim, rnd_);
 
 		//clone mutationstepsizes offspring
 		System.arraycopy(offspringA.mutation_step_size, 0, offspringA_ls.mutation_step_size, 0, offspringA.mutation_step_size.length);
@@ -397,6 +405,7 @@ public class player46 implements ContestSubmission
 					sum_in_range(delta, i, offspring_ls.genotype);
 				}
 			}
+
 			if (evals<evaluations_limit_) {
 				// calculate fitness of offspring
 				offspring_ls.fitness = (double) evaluation_.evaluate(offspring_ls.genotype);
@@ -409,6 +418,7 @@ public class player46 implements ContestSubmission
 			if (offspring_ls.fitness > offspring.fitness) {
 				local_search_done = true;
 				System.arraycopy(offspring_ls.genotype, 0, offspring.genotype, 0, offspring_ls.genotype.length);
+				offspring.fitness = offspring_ls.fitness;
 			}
 		}
 		return local_search_done;
@@ -416,15 +426,17 @@ public class player46 implements ContestSubmission
 
 	private void greedy_ascent_local_end_search(int individual_index) {
 
-		double[] delta = new double[offspringA.mutation_step_size.length];
+		double[] delta = new double[indiv_dim];
 
-		Individual offspring_ls = new Individual(indiv_dim, rnd_);
+		Individual offspring_ls = new Individual(mutation_step_size_start, indiv_dim, rnd_);
 		System.arraycopy(pops.get(individual_index).genotype, 0, offspring_ls.genotype, 0, pops.get(individual_index).genotype.length);
+		System.arraycopy(pops.get(individual_index).mutation_step_size, 0, offspring_ls.mutation_step_size, 0, pops.get(individual_index).mutation_step_size.length);
 
 		for (int i = 0; i < offspring_ls.genotype.length; i++) {
 			if (p_mutation_ls_end >= rnd_.nextDouble()) {
+				offspring_ls.mutation_step_size[i] *= 0.90;
 				// get delta and add to offspring
-				delta[i] = mutation_step_size_ls_end * rnd_.nextGaussian();
+				delta[i] = offspring_ls.mutation_step_size[i] * rnd_.nextGaussian();
 				sum_in_range(delta, i, offspring_ls.genotype);
 			}
 		}
@@ -435,7 +447,73 @@ public class player46 implements ContestSubmission
 
 		if (offspring_ls.fitness > pops.get(individual_index).fitness) {
 			System.arraycopy(offspring_ls.genotype, 0, pops.get(individual_index).genotype, 0, offspring_ls.genotype.length);
+			System.arraycopy(offspring_ls.mutation_step_size, 0, pops.get(individual_index).mutation_step_size, 0, offspring_ls.mutation_step_size.length);
+			pops.get(individual_index).fitness = offspring_ls.fitness;
 		}
+	}
+
+	private void diif_evolution_generation(){
+		int indiv_in_evolution = 4;
+		int[] indivs = new int[indiv_in_evolution];
+		boolean already_in;
+
+		for (int individual=0; individual<pops.size();individual++) {
+			// sample x random parents out of population
+			indivs[0]=individual;
+			for (int battle = 1; battle < indiv_in_evolution; battle++) {
+				do {
+					already_in = false;
+					indivs[battle] = rnd_.nextInt(pops.size() - 1);
+					// making sure they are in the set only once
+					for (int rnd = 0; rnd < indivs.length; rnd++) {
+						if (indivs[rnd] == indivs[battle] && rnd != battle) {
+							already_in = true;
+						}
+					}
+				} while (already_in);
+			}
+
+			double donor_vector[] = new double[indiv_dim];
+			double trail_vector[] = new double[indiv_dim];
+
+			for (int gene = 0; gene < indiv_dim; gene++) {
+				donor_vector[gene] = pops.get(indivs[1]).genotype[gene] + F * (pops.get(indivs[2]).genotype[gene] - pops.get(indivs[3]).genotype[gene]);
+			}
+
+			int fix_donor_gene = rnd_.nextInt(indiv_dim);
+
+			for (int gene = 0; gene < indiv_dim; gene++) {
+				if (gene == fix_donor_gene || Cr >= rnd_.nextDouble()) {
+					trail_vector[gene] = donor_vector[gene];
+				} else {
+					trail_vector[gene] = pops.get(indivs[0]).genotype[gene];
+				}
+			}
+
+			// calculate fitness of offspring
+			if (evals<evaluations_limit_){
+				double fitness_trail_vector = (double) evaluation_.evaluate(trail_vector);
+				evals++;
+
+				if (fitness_trail_vector > pops.get(indivs[0]).fitness) {
+					Individual offspring_de = new Individual(mutation_step_size_ls_end, indiv_dim, rnd_);
+					System.arraycopy(trail_vector, 0, offspring_de.genotype, 0, trail_vector.length);
+					offspring_de.fitness = fitness_trail_vector;
+					next_gen.add(offspring_de);
+				}
+				else {
+					next_gen.add(pops.get(indivs[0]));
+				}
+			}
+			else {
+				break;
+			}
+		}
+		pops.clear();
+		for (int individual=0; individual<next_gen.size();individual++) {
+			pops.add(next_gen.get(individual));
+		}
+		next_gen.clear();
 	}
 
 	private void sum_in_range(@NotNull double[] delta, int i, @NotNull double[] offspring) {
@@ -464,20 +542,17 @@ public class player46 implements ContestSubmission
 	public void run()
 	{
 		// Run your algorithm here
-		alpha = Double.valueOf(System.getProperty(("ts")));
 
-		mutation_step_size_start = Double.valueOf(System.getProperty(("cc")));
+		//mutation_step_size_start = Double.valueOf(System.getProperty(("mc"))).intValue();
+		//mutation_tau_apos = 1/Math.sqrt(2*indiv_dim)*Double.valueOf(System.getProperty("cc"));;
+		//mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim))*Double.valueOf(System.getProperty("ts"));;
+		//p_mutation = Double.valueOf(System.getProperty(("lr")));
 
-		double tau_scale = Double.valueOf(System.getProperty("mc"));
-		mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim))*tau_scale;
+		pop_size = Double.valueOf(System.getProperty("cc")).intValue();
+		F = Double.valueOf(System.getProperty("ts"));;
+		Cr = Double.valueOf(System.getProperty("lr"));;
 
-		double tau__prime_scale = Double.valueOf(System.getProperty("lr"));
-        mutation_tau_apos = 1/Math.sqrt(2*indiv_dim)*tau__prime_scale;
-
-
-
-
-        // init population uniformly randomly within [-5,5]
+		// init population uniformly randomly within [-5,5]
 		for(int individual = 0; individual < pop_size; individual ++){
 			pops.add(new Individual(mutation_step_size_start,indiv_dim,rnd_, min_max));
 			// calculate fitness
@@ -487,23 +562,18 @@ public class player46 implements ContestSubmission
 
 		Double evolution_evals = eval_search_split*evaluations_limit_;
 
-        while(evals< evolution_evals.intValue()){
+        while(evals< evolution_evals.intValue()) {
 
-			// select parent through method x
+/*			// select parent through method x
 			tournament_selection(true);
 
 			if(!Arrays.equals(pops.get(parA).genotype,pops.get(parB).genotype)) {
 				// create offspring from selected parents by method x
-				avergae_crossover();
+				one_point_crossover();
 
 				// mutate offspring
 				nonuniform_mutation();
 
-				// round to decimals
-				for(int i=0; i< offspringA.genotype.length; i++){
-					offspringA.genotype[i] = round(offspringA.genotype[i],3);
-					offspringB.genotype[i] = round(offspringB.genotype[i],3);
-				}
 
 				// calculate fitness of offspring A
 				offspringA.fitness = (double) evaluation_.evaluate(offspringA.genotype);
@@ -518,15 +588,17 @@ public class player46 implements ContestSubmission
 
 				// select individuals to be replaced by method x
 				tournament_selection(false);
-			}
-        }
+			}*/
+			diif_evolution_generation();
+
+		}
 
 		pops.sort(Collections.reverseOrder());
 
         int individual_index;
 
-        while (evals<evaluations_limit_){
-        	individual_index=rnd_.nextInt(ls_in_best-1);
+        while (evals<2*evaluations_limit_){
+        	individual_index=rnd_.nextInt(ls_in_best);
 			greedy_ascent_local_end_search(individual_index);
 		}
 	}
