@@ -2,7 +2,7 @@ setwd(dir = "/home/max/git/EvComp.Group46/group-46-idea/stats")
 source("Plots.R")
 require(ggplot2)
 require(dplyr)
-raw <- read.csv("ParamTuning.csv", header = FALSE)
+raw <- read.csv("Mutation_Tuning_DE.csv", header = FALSE)
 
 stats <- raw %>% group_by(Generation, IslandIndex, Epoch) %>%
   summarise(max_fitness = max(Fitness), 

@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/../../clean/EvComp.Group46/src/main/MigrationPolicies.java" description="ind.MutateMigrationProbabilities();" line="20" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e027099b-b1e6-433d-be43-37829d38e0c4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Individual.java" beforeDir="false" afterPath="$PROJECT_DIR$/Individual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/group46-module/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/group46-module/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/group46-module/stats/.RData" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/group46-module/stats/.RData" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/group46-module/stats/.Rhistory" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/group46-module/stats/.Rhistory" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/group46-module/stats/Mutation_Tuning_DE.csv" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/group46-module/stats/Mutation_Tuning_DE.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/group46-module/stats/ParamTuning_mutation.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/group46-module/stats/statScript.R" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/group46-module/stats/statScript.R" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player46.java" beforeDir="false" afterPath="$PROJECT_DIR$/player46.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats/.RData" beforeDir="false" afterPath="$PROJECT_DIR$/stats/.RData" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats/.Rhistory" beforeDir="false" afterPath="$PROJECT_DIR$/stats/.Rhistory" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats/Mutation_Tuning_DE.csv" beforeDir="false" afterPath="$PROJECT_DIR$/stats/Mutation_Tuning_DE.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats/ParamTuning_mutation.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats/statScript.R" beforeDir="false" afterPath="$PROJECT_DIR$/stats/statScript.R" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tmp/data_f12/bbobexp_f12_DIM10.dat" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/data_f12/bbobexp_f12_DIM10.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tmp/data_f12/bbobexp_f12_DIM10.tdat" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/data_f12/bbobexp_f12_DIM10.tdat" afterDir="false" />
     </list>
@@ -90,25 +103,26 @@
     <session id="-307942339">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="15" />
+          <entry key="project.closed" value="16" />
           <entry key="project.open.time.0" value="8" />
+          <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.5" value="3" />
           <entry key="project.open.time.6" value="6" />
           <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="19" />
+          <entry key="project.opened" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="58" />
-          <entry key="java" value="12048" />
+          <entry key="java" value="13029" />
           <entry key="txt" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="12048" />
+          <entry key="JAVA" value="13029" />
           <entry key="PLAIN_TEXT" value="98" />
         </counts>
       </usages-collector>
@@ -140,8 +154,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player46.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="459" column="69" lean-forward="true" selection-start-line="459" selection-start-column="69" selection-end-line="459" selection-end-column="69" />
+            <state relative-caret-position="90">
+              <caret line="467" column="9" lean-forward="true" selection-start-line="467" selection-start-column="9" selection-end-line="467" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -150,19 +164,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/util/Random.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="200" column="31" selection-start-line="200" selection-start-column="31" selection-end-line="200" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Individual.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="270">
+              <caret line="21" column="63" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -186,13 +191,14 @@
       <find>run</find>
       <find>int</find>
       <find>p_mutation_ls</find>
-      <find>mutation_step_size_ls_end</find>
       <find>tmp</find>
       <find>p_mutate</find>
       <find>evaluation</find>
       <find>evaluation.</find>
       <find>evaluation_.evaluate</find>
       <find>round</find>
+      <find>next_gen</find>
+      <find>mutation_step_size_ls_end</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -217,10 +223,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1987" />
+    <option name="x" value="67" />
     <option name="y" value="25" />
-    <option name="width" value="2493" />
-    <option name="height" value="1415" />
+    <option name="width" value="1853" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -228,7 +234,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -238,14 +244,32 @@
             </path>
             <path>
               <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="group-46-idea" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="group-46-idea" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="group-46-idea" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
+              <item name="group46-module" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="group-46-idea" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -254,9 +278,9 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539606356890" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539692568939" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/files/testrun.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="$USER_HOME$/.nvm/versions/node/v8.2.1/bin/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -288,7 +312,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JAR Application.BentCigar">
+  <component name="RunManager" selected="JAR Application.Katsuura">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -640,7 +664,7 @@
     </configuration>
     <configuration name="BentCigar" type="JarApplication" factoryName="JAR Application">
       <option name="JAR_PATH" value="$PROJECT_DIR$/out/production/group46-module//testrun.jar" />
-      <option name="VM_PARAMETERS" value="-Djava.library.path=$PROJECT_DIR$ -Dmc=0.5 -Dcc=50 -Dts=0.5 -Dlr=0.9" />
+      <option name="VM_PARAMETERS" value="-Djava.library.path=$PROJECT_DIR$ -Dmc=0.7 -Dcc=2 -Dts=0.8 -Dlr=0.002" />
       <option name="PROGRAM_PARAMETERS" value="-submission=player46 -evaluation=BentCigarFunction -nosec -seed=5" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/out/production/group46-module/" />
       <option name="ALTERNATIVE_JRE_PATH" value="10" />
@@ -790,6 +814,7 @@
       <workItem from="1539428026011" duration="1583000" />
       <workItem from="1539433386397" duration="145000" />
       <workItem from="1539433752835" duration="1146000" />
+      <workItem from="1539686397473" duration="3681000" />
     </task>
     <task id="LOCAL-00001" summary="First Draft; Crossover has to be updated">
       <created>1537384001272</created>
@@ -802,7 +827,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="133646000" />
+    <option name="totallyTimeSpent" value="151781000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -814,10 +839,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1987" y="25" width="2493" height="1415" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" order="0" visible="true" weight="0.11524315" />
+      <window_info id="Project" order="0" visible="true" weight="0.11621472" />
       <window_info id="Structure" order="1" weight="0.15774417" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -826,12 +851,12 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936507" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28650793" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28555554" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936507" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4997233" weight="0.23492064" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4997233" weight="0.23444444" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5002767" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4997233" weight="0.32936507" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32936507" />
@@ -919,15 +944,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/player46.java</url>
-          <line>133</line>
+          <line>620</line>
           <properties />
-          <option name="timeStamp" value="164" />
+          <option name="timeStamp" value="235" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/player46.java</url>
-          <line>449</line>
+          <line>464</line>
           <properties />
-          <option name="timeStamp" value="226" />
+          <option name="timeStamp" value="236" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -1000,13 +1025,7 @@
     <entry file="file://$PROJECT_DIR$/SphereEvaluation.class" />
     <entry file="file://$PROJECT_DIR$/Test.java" />
     <entry file="file://$PROJECT_DIR$/out/production/group46-module/player46.class" />
-    <entry file="file://$PROJECT_DIR$/javabbob/JNIfgeneric.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="27" column="36" lean-forward="true" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/javabbob/JNIfgeneric.java" />
     <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/io/FileInputStream.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
@@ -1066,27 +1085,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Individual.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/util/Random.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
+        <state relative-caret-position="2400">
           <caret line="200" column="31" selection-start-line="200" selection-start-column="31" selection-end-line="200" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/player46.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="459" column="69" lean-forward="true" selection-start-line="459" selection-start-column="69" selection-end-line="459" selection-end-column="69" />
+        <state relative-caret-position="90">
+          <caret line="467" column="9" lean-forward="true" selection-start-line="467" selection-start-column="9" selection-end-line="467" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Individual.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="21" column="63" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="63" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

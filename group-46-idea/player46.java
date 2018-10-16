@@ -16,7 +16,7 @@ public class player46 implements ContestSubmission
 	private ContestEvaluation evaluation_;
 	private int evals = 0;
     private int evaluations_limit_;
-    private int pop_size = 65;
+    private int pop_size = 100;
     private int indiv_dim = 10;
     private double[] min_max = {-5,5};
     private int fitness_index = indiv_dim;
@@ -38,10 +38,11 @@ public class player46 implements ContestSubmission
 	private double p_mutation_ls = 0.1;
 
 
-	private double eval_search_split =0.8;
+	private double eval_search_split =1;
 	private int ls_in_best = 1;
 	private double p_mutation_ls_end = 0.1;
-	private double mutation_step_size_ls_end = 0.01;
+	private double mutation_step_size_ls_end = 0.002;
+	private double Mutation_step_size_ls_end_scale = 0.9;
 
 	private ArrayList<Individual> pops = new ArrayList<>();
 	private ArrayList<Individual> next_gen = new ArrayList<>();
@@ -52,12 +53,12 @@ public class player46 implements ContestSubmission
 	private Individual offspringA;
 	private Individual offspringB;
 
-	private static final int number_of_runs = 20;
+	private static final int number_of_runs = 1000;
 
-	// schaffers optimal 100 F0.5 Cr1
+	// schaffers optimal 100 F0.4 Cr0.8
 	// bent cigar optimal 50 F0.4 Cr0.9
-	private double F = 0.8;
-	private double Cr = 0.9;
+	private double F;
+	private double Cr;
 
 	public player46()
 	{
@@ -75,20 +76,27 @@ public class player46 implements ContestSubmission
 
 		Logger log = new Logger("Mutation_Tuning_DE");
 		List<String> logHeader = new ArrayList<>();
-		logHeader.add("p_mutation");
-		logHeader.add("sigma_start");
-		logHeader.add("tau_apos_scale");
-		logHeader.add("tau_scale");
+		logHeader.add("Split");
+		logHeader.add("in_best");
+		logHeader.add("p_mut");
+		logHeader.add("sigma");
 		logHeader.add("Score");
 		log.AddRow(logHeader);
 
-		String function = "BentCigarFunction";
+		String Schaffers_function = "SchaffersEvaluation";
+		String BentCigar_function = "BentCigarFunction";
+
+
+		ArrayList <String> functions = new ArrayList<>();
+		functions.add(Schaffers_function);
+		functions.add(BentCigar_function);
+
 		String output;
 
-		for (double p_mut = 1; p_mut <= 1; p_mut += 0.1) {
-			for (double pop_s = 40; pop_s <= 100; pop_s += 10)
-				for (double tau_as = 0.1; tau_as <= 1.001; tau_as += 0.1)
-					for (double tau = 0.1; tau <= 1.001; tau += 0.1)
+		for (double par1 = 0.7; par1 <= 0.7; par1 += 0.1) {
+			for (double par2 = 1; par2 <= 1; par2 += 1)
+				for (double par3 = 0.4; par3 <= 0.4; par3 += 0.1)
+					for (double par4 = 0; par4 <= 1; par4 += 1)
 					{
 						double avgScore = 0;
 						for (int run = 0; run < number_of_runs; run++) {
@@ -96,12 +104,12 @@ public class player46 implements ContestSubmission
 
 							String command = String.format("/usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java -Djava.library.path=%s -Dmc=%f -Dcc=%f -Dts=%f -Dlr=%f -Dfile.encoding=UTF-8 -jar %s/out/production/group46-module//testrun.jar -submission=player46 -evaluation=%s -nosec -seed=%d",
 									currentDir,
-									p_mut,
-									pop_s,
-									tau_as,
-									tau,
+									par1,
+									par2,
+									par3,
+									par4,
 									currentDir,
-									function,
+									functions.get((int)par4),
 									run);
 
 							processInput.write(command);
@@ -121,10 +129,11 @@ public class player46 implements ContestSubmission
 						}
 
 						List<String> result = new ArrayList<>();
-						//result.add(Double.toString(p_mut));
-						result.add(Double.toString(pop_s));
-                        result.add(Double.toString(tau_as));
-						result.add(Double.toString(tau));
+//						result.add(Double.toString(par1));
+//						result.add(Double.toString(par2));
+//                      result.add(Double.toString(par3));
+//						result.add(Double.toString(par4));
+						result.add(functions.get((int)par4));
 						result.add(Double.toString(avgScore / number_of_runs));
 						log.AddRow(result);
 						log.Print(result);
@@ -162,10 +171,17 @@ public class player46 implements ContestSubmission
         boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
 
 		// Do sth with property values, e.g. specify relevant settings of your algorithm
+
+		// schaffers optimal 100 F0.4 Cr0.8
+		// bent cigar optimal 50 F0.4 Cr0.9
         if(isMultimodal){
-            // Do sth
+			pop_size=100;
+        	F=0.4;
+			Cr=0.8;
         }else{
-            // Do sth else
+        	pop_size=50;
+			F=0.4;
+			Cr=0.9;
         }
     }
 
@@ -428,13 +444,13 @@ public class player46 implements ContestSubmission
 
 		double[] delta = new double[indiv_dim];
 
-		Individual offspring_ls = new Individual(mutation_step_size_start, indiv_dim, rnd_);
+		Individual offspring_ls = new Individual(mutation_step_size_ls_end, indiv_dim, rnd_);
 		System.arraycopy(pops.get(individual_index).genotype, 0, offspring_ls.genotype, 0, pops.get(individual_index).genotype.length);
 		System.arraycopy(pops.get(individual_index).mutation_step_size, 0, offspring_ls.mutation_step_size, 0, pops.get(individual_index).mutation_step_size.length);
 
 		for (int i = 0; i < offspring_ls.genotype.length; i++) {
 			if (p_mutation_ls_end >= rnd_.nextDouble()) {
-				offspring_ls.mutation_step_size[i] *= 0.90;
+				offspring_ls.mutation_step_size[i] *= Mutation_step_size_ls_end_scale;
 				// get delta and add to offspring
 				delta[i] = offspring_ls.mutation_step_size[i] * rnd_.nextGaussian();
 				sum_in_range(delta, i, offspring_ls.genotype);
@@ -543,14 +559,14 @@ public class player46 implements ContestSubmission
 	{
 		// Run your algorithm here
 
-		//mutation_step_size_start = Double.valueOf(System.getProperty(("mc"))).intValue();
-		//mutation_tau_apos = 1/Math.sqrt(2*indiv_dim)*Double.valueOf(System.getProperty("cc"));;
-		//mutation_tau = 1/Math.sqrt(2*Math.sqrt(indiv_dim))*Double.valueOf(System.getProperty("ts"));;
-		//p_mutation = Double.valueOf(System.getProperty(("lr")));
+		//eval_search_split = Double.valueOf(System.getProperty(("mc")));
+		//ls_in_best = Double.valueOf(System.getProperty("cc")).intValue();
+		//Mutation_step_size_ls_end_scale = Double.valueOf(System.getProperty("ts"));
+		//mutation_step_size_ls_end = Double.valueOf(System.getProperty(("lr")));
 
-		pop_size = Double.valueOf(System.getProperty("cc")).intValue();
-		F = Double.valueOf(System.getProperty("ts"));;
-		Cr = Double.valueOf(System.getProperty("lr"));;
+		//pop_size = Double.valueOf(System.getProperty("cc")).intValue();
+		//F = Double.valueOf(System.getProperty("ts"));;
+		//Cr = Double.valueOf(System.getProperty("lr"));;
 
 		// init population uniformly randomly within [-5,5]
 		for(int individual = 0; individual < pop_size; individual ++){
@@ -595,9 +611,15 @@ public class player46 implements ContestSubmission
 
 		pops.sort(Collections.reverseOrder());
 
-        int individual_index;
 
-        while (evals<2*evaluations_limit_){
+       /* for(int candidates=0; candidates<ls_in_best; candidates++){
+        	for (int sigma= 0; sigma<pops.get(candidates).mutation_step_size.length; sigma++){
+				pops.get(candidates).mutation_step_size[sigma] = mutation_step_size_ls_end;
+			}
+		}*/
+
+		int individual_index;
+        while (evals<evaluations_limit_){
         	individual_index=rnd_.nextInt(ls_in_best);
 			greedy_ascent_local_end_search(individual_index);
 		}
